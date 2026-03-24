@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chilling Prospects 2025 — SEforALL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --dark-navy: #022437;
+    --navy: #065A89;
+    --yellow: #FFB800;
+    --green: #9BBE1D;
+    --dark-green: #183F37;
+    --orange: #FF6A13;
+    --red: #DD2E2B;
+    --light-blue: #F0F7FA;
+    --white: #FFFFFF;
+    --teal: #00B8C4;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Mulish',Arial,sans-serif; background:var(--dark-navy); color:var(--dark-navy); }
+
+  /* HEADER */
+  .site-header {
+    background:var(--dark-navy);
+    padding:0 32px;
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px; position:sticky; top:0; z-index:100;
+    border-bottom:1px solid rgba(255,184,0,0.25);
+  }
+  .header-brand { display:flex; align-items:center; gap:14px; }
+  .header-logo {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:11px; font-weight:600; letter-spacing:0.08em;
+    color:var(--yellow); text-transform:uppercase; line-height:1.2;
+  }
+  .header-logo span { color:#fff; display:block; font-size:9px; font-weight:400; letter-spacing:0.04em; }
+  .brand-divider { width:1px; height:32px; background:rgba(255,255,255,0.15); }
+  .header-title {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:18px; font-weight:700; color:#fff; letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .header-title em { color:var(--yellow); font-style:normal; }
+  .header-meta {
+    font-family:'Mulish',sans-serif; font-size:11px;
+    color:rgba(255,255,255,0.5); letter-spacing:0.04em;
+  }
+  .header-meta strong { color:var(--yellow); font-weight:700; }
+
+  /* NAV TABS */
+  .nav-bar {
+    background:#011b2a;
+    display:flex; gap:0; border-bottom:1px solid rgba(255,255,255,0.06);
+    padding:0 32px; overflow-x:auto;
+  }
+  .nav-tab {
+    font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.06em;
+    padding:12px 20px; color:rgba(255,255,255,0.45);
+    cursor:pointer; border:none; background:none;
+    border-bottom:3px solid transparent;
+    transition:all 0.2s; white-space:nowrap;
+  }
+  .nav-tab:hover { color:rgba(255,255,255,0.75); background:rgba(255,255,255,0.03); }
+  .nav-tab.active { color:var(--yellow); border-bottom-color:var(--yellow); }
+
+  /* CONTENT AREA */
+  .content { background:var(--light-blue); min-height:calc(100vh - 105px); }
+  .view { display:none; padding:24px 32px; }
+  .view.active { display:block; }
+
+  /* INSIGHT BANNER */
+  .insight-banner {
+    background:var(--dark-navy); border-left:4px solid var(--yellow);
+    padding:14px 20px; margin-bottom:20px; border-radius:0 4px 4px 0;
+  }
+  .insight-banner p {
+    font-family:'Mulish',sans-serif; font-size:13px; color:rgba(255,255,255,0.85);
+    line-height:1.6; font-weight:400;
+  }
+  .insight-banner p strong { color:var(--yellow); font-weight:700; }
+
+  /* KPI TILES */
+  .kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:20px; }
+  .kpi-tile {
+    background:#fff; border-radius:6px;
+    padding:20px; position:relative; overflow:hidden;
+    box-shadow:0 1px 4px rgba(2,36,55,0.08);
+  }
+  .kpi-tile::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:4px;
+  }
+  .kpi-tile.high::before { background:var(--red); }
+  .kpi-tile.medium::before { background:var(--orange); }
+  .kpi-tile.countries::before { background:var(--navy); }
+  .kpi-tile.urban::before { background:var(--dark-navy); }
+  .kpi-label {
+    font-family:'Mulish',sans-serif; font-size:10px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.08em; color:var(--navy);
+    margin-bottom:8px;
+  }
+  .kpi-value {
+    font-family:'Barlow Condensed',sans-serif; font-size:38px; font-weight:800;
+    color:var(--dark-navy); line-height:1; margin-bottom:4px;
+  }
+  .kpi-value.danger { color:var(--red); }
+  .kpi-value.warning { color:var(--orange); }
+  .kpi-sub {
+    font-family:'Mulish',sans-serif; font-size:11px; color:#666;
+  }
+  .kpi-trend {
+    position:absolute; top:20px; right:16px;
+    font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700;
+    padding:3px 8px; border-radius:3px;
+  }
+  .kpi-trend.up { background:#FFEBEB; color:var(--red); }
+  .kpi-trend.neutral { background:#E8F4E8; color:#2d7a2d; }
+
+  /* CHART GRID */
+  .chart-row { display:grid; gap:16px; margin-bottom:20px; }
+  .chart-row.two-col { grid-template-columns:1fr 1fr; }
+  .chart-row.three-two { grid-template-columns:3fr 2fr; }
+  .chart-row.two-three { grid-template-columns:2fr 3fr; }
+  .chart-card {
+    background:#fff; border-radius:6px;
+    box-shadow:0 1px 4px rgba(2,36,55,0.08);
+    overflow:hidden;
+  }
+  .chart-header {
+    background:var(--dark-navy); padding:12px 18px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .chart-title {
+    font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700;
+    color:#fff; text-transform:uppercase; letter-spacing:0.04em;
+  }
+  .chart-subtitle { font-size:10px; color:rgba(255,255,255,0.5); font-weight:400; text-transform:none; letter-spacing:0; }
+  .chart-body { padding:16px; position:relative; }
+  .chart-body canvas { max-height:260px; }
+
+  /* SECTION HEADER */
+  .section-header {
+    font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--navy); padding:4px 0 12px; border-bottom:2px solid var(--navy);
+    margin-bottom:16px;
+  }
+
+  /* COUNTRY EXPLORER */
+  .explorer-grid { display:grid; grid-template-columns:260px 1fr; gap:16px; }
+  .explorer-sidebar { background:#fff; border-radius:6px; padding:16px; box-shadow:0 1px 4px rgba(2,36,55,0.08); }
+  .sidebar-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--navy); margin-bottom:8px; }
+  .country-select {
+    width:100%; font-family:'Mulish',sans-serif; font-size:13px;
+    padding:10px 12px; border:1.5px solid #ddd; border-radius:4px;
+    color:var(--dark-navy); background:#fff; cursor:pointer;
+    margin-bottom:16px;
+  }
+  .country-select:focus { outline:none; border-color:var(--navy); }
+  .country-card { background:var(--light-blue); border-radius:6px; padding:14px; margin-top:0; }
+  .country-name { font-family:'Barlow Condensed',sans-serif; font-size:26px; font-weight:800; color:var(--dark-navy); margin-bottom:4px; }
+  .country-region { font-size:11px; color:var(--navy); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px; }
+  .traj-badge {
+    display:inline-block; padding:4px 10px; border-radius:20px;
+    font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px;
+  }
+  .traj-badge.progress { background:#E8F5E9; color:#2E7D32; }
+  .traj-badge.uneven { background:#FFF3E0; color:#E65100; }
+  .traj-badge.losing { background:#FFEBEE; color:#C62828; }
+  .c9-badge {
+    display:inline-block; background:var(--yellow); color:var(--dark-navy);
+    font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:800;
+    text-transform:uppercase; letter-spacing:0.06em; padding:2px 8px;
+    border-radius:3px; margin-bottom:12px; margin-left:8px;
+  }
+  .stat-row { display:flex; justify-content:space-between; margin-bottom:6px; border-bottom:1px solid rgba(2,36,55,0.08); padding-bottom:6px; }
+  .stat-row:last-child { border:none; padding:0; margin:0; }
+  .stat-key { font-size:11px; color:#666; }
+  .stat-val { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; color:var(--dark-navy); }
+  .explorer-main { display:flex; flex-direction:column; gap:16px; }
+  .donut-row { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .donut-card { background:#fff; border-radius:6px; padding:14px; box-shadow:0 1px 4px rgba(2,36,55,0.08); text-align:center; }
+  .donut-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--navy); margin-bottom:8px; }
+  .donut-canvas { max-height:120px; }
+
+  /* CRITICAL 9 */
+  .c9-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+  .c9-card {
+    background:#fff; border-radius:6px; padding:14px;
+    box-shadow:0 1px 4px rgba(2,36,55,0.08);
+    border-left:4px solid var(--navy); cursor:pointer;
+    transition:transform 0.15s, box-shadow 0.15s;
+  }
+  .c9-card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(2,36,55,0.12); }
+  .c9-card.progress { border-left-color:var(--green); }
+  .c9-card.uneven { border-left-color:var(--orange); }
+  .c9-card.losing { border-left-color:var(--red); }
+  .c9-country { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:800; color:var(--dark-navy); }
+  .c9-total { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:700; color:var(--navy); }
+  .c9-total-label { font-size:10px; color:#888; margin-bottom:8px; }
+  .c9-cagr-row { display:flex; gap:10px; margin-top:8px; }
+  .c9-cagr { font-size:11px; }
+  .c9-cagr span { font-weight:700; }
+  .c9-cagr .pos { color:var(--red); }
+  .c9-cagr .neg { color:var(--green); }
+
+  /* GENDER VIEW */
+  .gender-note { font-size:12px; color:#666; font-style:italic; margin-bottom:12px; }
+
+  /* REGION VIEW */
+  .region-filter { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+  .region-btn {
+    font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.05em;
+    padding:6px 14px; border:2px solid var(--navy); border-radius:3px;
+    cursor:pointer; background:transparent; color:var(--navy);
+    transition:all 0.15s;
+  }
+  .region-btn.active { background:var(--navy); color:#fff; }
+  .region-btn:hover:not(.active) { background:var(--navy); color:#fff; opacity:0.8; }
+
+  /* CAGR ARROWS */
+  .arrow-up::before { content:'▲ '; }
+  .arrow-down::before { content:'▼ '; }
+
+  /* PROJECTIONS PANEL */
+  .proj-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
+  .proj-card { background:#fff; border-radius:6px; padding:16px; box-shadow:0 1px 4px rgba(2,36,55,0.08); text-align:center; }
+  .proj-segment { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#666; margin-bottom:6px; }
+  .proj-from { font-size:12px; color:#999; }
+  .proj-to { font-family:'Barlow Condensed',sans-serif; font-size:30px; font-weight:800; color:var(--dark-navy); }
+  .proj-change { font-size:11px; font-weight:600; }
+  .proj-change.bad { color:var(--red); }
+  .proj-change.good { color:var(--green); }
+
+  /* RESPONSIVE */
+  @media (max-width:900px) {
+    .kpi-row { grid-template-columns:repeat(2,1fr); }
+    .chart-row.two-col, .chart-row.three-two, .chart-row.two-three { grid-template-columns:1fr; }
+    .explorer-grid { grid-template-columns:1fr; }
+    .c9-grid { grid-template-columns:repeat(2,1fr); }
+    .donut-row { grid-template-columns:1fr; }
+  }
+
+  .legend-dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; }
+  .legend-row { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:8px; }
+  .legend-item { display:flex; align-items:center; font-size:11px; color:#555; }
+
+  /* SCATTER CANVAS */
+  #scatterCanvas { max-height:340px !important; }
+
+  /* FOOTER */
+  .dash-footer {
+    background:var(--dark-navy); padding:16px 32px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .footer-text { font-size:10px; color:rgba(255,255,255,0.35); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-brand">
+    <div class="header-logo">
+      SUSTAINABLE ENERGY<br>FOR ALL
+      <span>SEforALL</span>
+    </div>
+    <div class="brand-divider"></div>
+    <div class="header-title">
+      CHILLING <em>PROSPECTS</em> <em>2025</em>
+      <div style="font-size:10px;font-weight:400;color:rgba(255,255,255,0.4);text-transform:none;letter-spacing:0.02em;">Tracking Sustainable Cooling for All</div>
+    </div>
+  </div>
+  <div class="header-meta">Data as of <strong>2024</strong> · 77 High-Impact Countries</div>
+</header>
+
+<nav class="nav-bar">
+  <button class="nav-tab active" onclick="showView('global')">Global Overview</button>
+  <button class="nav-tab" onclick="showView('regional')">Regional Trends</button>
+  <button class="nav-tab" onclick="showView('country')">Country Explorer</button>
+  <button class="nav-tab" onclick="showView('critical9')">The Critical 9</button>
+  <button class="nav-tab" onclick="showView('gender')">Gender Lens</button>
+</nav>
+
+<main class="content">
+
+<!-- ═══════════════════════════════════════════════════════════════ VIEW 1: GLOBAL -->
+<div class="view active" id="view-global">
+  <div class="insight-banner">
+    <p>Over <strong>1 billion people</strong> face dangerous heat exposure without access to cooling today. The urban poor are the fastest-growing high-risk group, projected to swell by a further <strong>48.5 million by 2030</strong> — while an additional 2.83 billion face affordability and sustainability barriers in accessing cooling solutions.</p>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi-tile high">
+      <div class="kpi-label">People at High Risk</div>
+      <div class="kpi-value danger">1.005B</div>
+      <div class="kpi-sub">309M rural · 696M urban poor</div>
+      <div class="kpi-trend up">▲ Risk</div>
+    </div>
+    <div class="kpi-tile medium">
+      <div class="kpi-label">People at Medium Risk</div>
+      <div class="kpi-value warning">2.83B</div>
+      <div class="kpi-sub">Affordability & sustainability gap</div>
+      <div class="kpi-trend up">Growing</div>
+    </div>
+    <div class="kpi-tile countries">
+      <div class="kpi-label">Countries Tracked</div>
+      <div class="kpi-value" style="color:var(--navy)">77</div>
+      <div class="kpi-sub">High-impact countries, 2024 data</div>
+      <div class="kpi-trend neutral">4 Regions</div>
+    </div>
+    <div class="kpi-tile urban">
+      <div class="kpi-label">Urban Risk Growth to 2030</div>
+      <div class="kpi-value danger">+7%</div>
+      <div class="kpi-sub">+48.5M additional urban poor at risk</div>
+      <div class="kpi-trend up">↑ Urgent</div>
+    </div>
+  </div>
+
+  <div class="chart-row three-two">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">High Risk Trend 2013–2024</div>
+          <div class="chart-subtitle">Rural poor vs. urban poor at high risk (millions)</div>
+        </div>
+      </div>
+      <div class="chart-body">
+        <canvas id="trendChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">2024 Risk Population Mix</div>
+          <div class="chart-subtitle">All risk groups globally</div>
+        </div>
+      </div>
+      <div class="chart-body" style="display:flex;align-items:center;justify-content:center;padding:20px;">
+        <canvas id="donutGlobal" style="max-height:220px;max-width:220px;"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-row two-col">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Regional High Risk Comparison 2024</div>
+          <div class="chart-subtitle">Total population at high risk by region (millions)</div>
+        </div>
+      </div>
+      <div class="chart-body">
+        <canvas id="regionalBar"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">2030 Projections</div>
+          <div class="chart-subtitle">Projected change from 2024 baseline</div>
+        </div>
+      </div>
+      <div class="chart-body">
+        <div class="proj-row">
+          <div class="proj-card">
+            <div class="proj-segment">Rural High Risk</div>
+            <div class="proj-from">2024: 309M</div>
+            <div class="proj-to">304M</div>
+            <div class="proj-change good">▼ −5.3M (−1.7%)</div>
+          </div>
+          <div class="proj-card">
+            <div class="proj-segment">Urban High Risk</div>
+            <div class="proj-from">2024: 696M</div>
+            <div class="proj-to">744M</div>
+            <div class="proj-change bad">▲ +48.5M (+7.0%)</div>
+          </div>
+          <div class="proj-card">
+            <div class="proj-segment">Medium Risk</div>
+            <div class="proj-from">2024: 2,828M</div>
+            <div class="proj-to">2,851M</div>
+            <div class="proj-change bad">▲ +23M (+0.8%)</div>
+          </div>
+        </div>
+        <div class="chart-body" style="padding:8px 0 0;">
+          <canvas id="projBar" style="max-height:140px;"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ VIEW 2: REGIONAL -->
+<div class="view" id="view-regional">
+  <div class="insight-banner">
+    <p><strong>Sub-Saharan Africa</strong> carries the largest share of high-risk populations globally, driven by rapid population growth, electricity access gaps, and heat exposure. In <strong>Central and Southern Asia</strong>, high-risk populations are declining — but mostly shifting into the medium-risk group, not exiting risk altogether.</p>
+  </div>
+
+  <div class="region-filter">
+    <button class="region-btn active" onclick="filterRegion('all',this)">All Regions</button>
+    <button class="region-btn" onclick="filterRegion('Africa',this)">Africa</button>
+    <button class="region-btn" onclick="filterRegion('Asia and the Middle East',this)">Asia & Middle East</button>
+    <button class="region-btn" onclick="filterRegion('Latin America and the Caribbean',this)">Latin America</button>
+  </div>
+
+  <div class="chart-row two-col">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">High Risk by Region</div>
+          <div class="chart-subtitle">Rural poor + urban poor at high risk (millions)</div>
+        </div>
+      </div>
+      <div class="chart-body">
+        <canvas id="regionHighBar"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Medium Risk by Region</div>
+          <div class="chart-subtitle">Lower-middle income at medium risk (millions)</div>
+        </div>
+      </div>
+      <div class="chart-body">
+        <canvas id="regionMedBar"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-row">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title" id="heatmapTitle">Top 20 Countries — High Risk Population (millions)</div>
+          <div class="chart-subtitle">2024 · Sorted by total high-risk population</div>
+        </div>
+      </div>
+      <div class="chart-body">
+        <canvas id="countryRankBar" style="max-height:340px;"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ VIEW 3: COUNTRY -->
+<div class="view" id="view-country">
+  <div class="insight-banner">
+    <p>Select any country to explore its full cooling access risk profile — vulnerability by income group, trend from 2013 to 2024, gender breakdown, and trajectory classification. Built for policymakers, bilateral donors, and country-focused investors.</p>
+  </div>
+
+  <div class="explorer-grid">
+    <div class="explorer-sidebar">
+      <div class="sidebar-label">Select Country</div>
+      <select class="country-select" id="countrySelect" onchange="updateCountry()"></select>
+
+      <div class="country-card" id="countryCard">
+        <div class="country-name" id="cardName">Nigeria</div>
+        <div class="country-region" id="cardRegion">Africa</div>
+        <div id="cardBadge"></div>
+        <div class="stat-row"><span class="stat-key">Rural Poor at High Risk</span><span class="stat-val" id="statRural">—</span></div>
+        <div class="stat-row"><span class="stat-key">Urban Poor at High Risk</span><span class="stat-val" id="statUrban">—</span></div>
+        <div class="stat-row"><span class="stat-key">Medium Risk Pop.</span><span class="stat-val" id="statMedium">—</span></div>
+        <div class="stat-row"><span class="stat-key">Low Risk Pop.</span><span class="stat-val" id="statLow">—</span></div>
+        <div class="stat-row"><span class="stat-key">CAGR Rural (2019–24)</span><span class="stat-val" id="statCagrR">—</span></div>
+        <div class="stat-row"><span class="stat-key">CAGR Urban (2019–24)</span><span class="stat-val" id="statCagrU">—</span></div>
+      </div>
+    </div>
+
+    <div class="explorer-main">
+      <div class="donut-row">
+        <div class="donut-card">
+          <div class="donut-label">Rural Poor — High Risk</div>
+          <canvas id="donutRural" class="donut-canvas"></canvas>
+          <div style="font-size:10px;color:#999;margin-top:6px;">vs. regional total</div>
+        </div>
+        <div class="donut-card">
+          <div class="donut-label">Urban Poor — High Risk</div>
+          <canvas id="donutUrban" class="donut-canvas"></canvas>
+          <div style="font-size:10px;color:#999;margin-top:6px;">vs. regional total</div>
+        </div>
+        <div class="donut-card">
+          <div class="donut-label">Medium Risk Pop.</div>
+          <canvas id="donutMedium" class="donut-canvas"></canvas>
+          <div style="font-size:10px;color:#999;margin-top:6px;">vs. regional total</div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title" id="countryTrendTitle">Country Risk Profile 2013–2024</div>
+            <div class="chart-subtitle">Population by risk/income group (millions)</div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <canvas id="countryTrendChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card" id="genderCard">
+        <div class="chart-header">
+          <div class="chart-title" id="genderCountryTitle">Gender Split — 2024 High Risk</div>
+        </div>
+        <div class="chart-body">
+          <canvas id="countryGenderBar" style="max-height:120px;"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ VIEW 4: CRITICAL 9 -->
+<div class="view" id="view-critical9">
+  <div class="insight-banner">
+    <p>These 9 countries account for the majority of the world's cooling access challenge. Their trajectories — measured by annual change in rural and urban high-risk populations from 2019 to 2024 — determine whether the global target is achievable. Click any country card to view its full profile.</p>
+  </div>
+
+  <div class="c9-grid" id="c9Grid"></div>
+
+  <div class="chart-card">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">Risk Trajectory Scatter — Annual Rate of Change 2019–2024</div>
+        <div class="chart-subtitle">CAGR Rural High Risk (x-axis) vs. CAGR Urban High Risk (y-axis) · Bubble size = 2024 High Risk population</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="legend-row" style="margin-bottom:12px;">
+        <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span> Making Progress (both declining)</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--orange)"></span> Uneven Gains (mixed direction)</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--red)"></span> Losing Ground (both increasing)</div>
+      </div>
+      <canvas id="scatterCanvas"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ VIEW 5: GENDER -->
+<div class="view" id="view-gender">
+  <div class="insight-banner">
+    <p>Women disproportionately bear the burden of inadequate cooling, particularly in rural high-risk settings across Sub-Saharan Africa and South Asia. In most countries, female populations constitute a slight majority of those at high risk — reflecting structural inequalities in energy access and housing quality.</p>
+  </div>
+
+  <div class="chart-row two-col">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Female Share of High Risk Population</div>
+          <div class="chart-subtitle">Top 20 countries by total high-risk population · 2024</div>
+        </div>
+      </div>
+      <div class="chart-body">
+        <canvas id="genderShareBar" style="max-height:320px;"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Rural vs. Urban Gender Split</div>
+          <div class="chart-subtitle">Top 15 countries · Female vs. Male high risk (millions)</div>
+        </div>
+      </div>
+      <div class="chart-body">
+        <canvas id="genderDivergBar" style="max-height:320px;"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="kpi-row" style="grid-template-columns:repeat(3,1fr);">
+    <div class="kpi-tile medium">
+      <div class="kpi-label">Global Female High Risk</div>
+      <div class="kpi-value warning" id="globalFemaleKPI">—</div>
+      <div class="kpi-sub">Rural + Urban combined</div>
+    </div>
+    <div class="kpi-tile high">
+      <div class="kpi-label">Global Male High Risk</div>
+      <div class="kpi-value danger" id="globalMaleKPI">—</div>
+      <div class="kpi-sub">Rural + Urban combined</div>
+    </div>
+    <div class="kpi-tile countries">
+      <div class="kpi-label">Female Share Globally</div>
+      <div class="kpi-value" style="color:var(--navy)" id="globalShareKPI">—</div>
+      <div class="kpi-sub">Of total high-risk population</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer class="dash-footer">
+  <div class="footer-text">Chilling Prospects 2025 · Sustainable Energy for All · Energy Intelligence</div>
+  <div class="footer-text">Data: 2013–2024 historical · 77 high-impact countries · Projections cited from CP2025 report</div>
+</footer>
+
+<script>
+// ─── EMBEDDED DATA ───────────────────────────────────────────────────────────
+const DATA = {"kpis": {"total_high": 1005.1, "rural_high": 309.4, "urban_high": 695.7, "medium": 2827.5}, "trend_years": [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024], "trend_rural": [459.76, 434.87, 412.8, 399.17, 353.03, 319.58, 326.89, 370.94, 356.57, 331.01, 322.49, 309.38], "trend_urban": [779.52, 753.87, 741.14, 732.46, 717.32, 709.2, 714.83, 713.32, 696.49, 692.16, 694.49, 695.7], "trend_medium": [2737.23, 2770.1, 2781.52, 2792.54, 2828.98, 2840.17, 2818.03, 2879.3, 2818.77, 2842.57, 2834.89, 2827.53], "regional": {"Asia and the Middle East": 573.26, "Africa": 402.61, "Latin America and the Caribbean": 25.4, "Oceania": 3.81}, "critical9": {"China": {"cagr_rural": 0, "cagr_urban": -4.52, "total_high_M": 69.68}, "Brazil": {"cagr_rural": -10.26, "cagr_urban": -27.73, "total_high_M": 7.75}, "Indonesia": {"cagr_rural": -14.2, "cagr_urban": -2.59, "total_high_M": 25.25}, "Bangladesh": {"cagr_rural": -14.84, "cagr_urban": 0.13, "total_high_M": 32.04}, "India": {"cagr_rural": -5.67, "cagr_urban": 0.61, "total_high_M": 318.79}, "Pakistan": {"cagr_rural": -3.56, "cagr_urban": 0.49, "total_high_M": 46.0}, "Mozambique": {"cagr_rural": 2.61, "cagr_urban": 4.52, "total_high_M": 31.34}, "Nigeria": {"cagr_rural": 1.33, "cagr_urban": 2.08, "total_high_M": 124.42}, "Sudan": {"cagr_rural": 16.38, "cagr_urban": 7.69, "total_high_M": 32.52}}, "countries": ["Afghanistan", "Algeria", "Angola", "Argentina", "Bangladesh", "Belize", "Benin", "Bhutan", "Bolivia", "Brazil", "Burkina Faso", "Cambodia", "Cameroon", "Central African Republic", "Chad", "China", "Colombia", "Congo, Rep.", "Cote d'Ivoire", "Djibouti", "Dominican Republic", "Ecuador", "Egypt, Arab Rep.", "El Salvador", "Eritrea", "Eswatini", "Ethiopia", "Gambia, The", "Georgia", "Ghana", "Guatemala", "Guinea", "Guinea-Bissau", "Honduras", "India", "Indonesia", "Iran, Islamic Rep.", "Iraq", "Jordan", "Kenya", "Lao PDR", "Lebanon", "Liberia", "Malawi", "Mali", "Mauritania", "Mexico", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nepal", "Niger", "Nigeria", "Pakistan", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Senegal", "Sierra Leone", "Somalia", "South Sudan", "Sri Lanka", "Sudan", "Syrian Arab Republic", "Thailand", "Timor-Leste", "Togo", "Turkmenistan", "T\u00fcrkiye", "Uganda", "Uzbekistan", "Venezuela, RB", "Vietnam", "West Bank and Gaza", "Yemen, Rep."], "profiles": {"Algeria": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.0, "urban_high_2024": 2.162, "medium_2024": 27.002, "low_2024": 15.158, "trajectory": "Uneven Gains", "cagr_rural": 0, "cagr_urban": -8.63, "trend": {"2013": {"rural_high": 0.0, "urban_high": 5.054, "medium": 20.119, "low": 11.43}, "2014": {"rural_high": 0.0, "urban_high": 4.826, "medium": 20.343, "low": 12.092}, "2015": {"rural_high": 0.0, "urban_high": 4.58, "medium": 20.687, "low": 12.687}, "2016": {"rural_high": 0.0, "urban_high": 4.315, "medium": 21.138, "low": 13.224}, "2017": {"rural_high": 0.0, "urban_high": 4.03, "medium": 21.975, "low": 13.472}, "2018": {"rural_high": 0.0, "urban_high": 3.72, "medium": 22.546, "low": 13.934}, "2019": {"rural_high": 0.0, "urban_high": 3.394, "medium": 23.575, "low": 14.02}, "2020": {"rural_high": 0.0, "urban_high": 3.022, "medium": 26.157, "low": 12.844}, "2021": {"rural_high": 0.0, "urban_high": 2.778, "medium": 26.451, "low": 13.403}, "2022": {"rural_high": 0.0, "urban_high": 2.553, "medium": 26.748, "low": 13.94}, "2023": {"rural_high": 0.0, "urban_high": 2.349, "medium": 26.787, "low": 14.644}, "2024": {"rural_high": 0.0, "urban_high": 2.162, "medium": 27.002, "low": 15.158}}}, "Angola": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 6.497, "urban_high_2024": 23.418, "medium_2024": 4.554, "low_2024": 2.717, "trajectory": "Losing Ground", "cagr_rural": 4.63, "cagr_urban": 5.96, "trend": {"2013": {"rural_high": 2.972, "urban_high": 10.109, "medium": 9.015, "low": 3.19}, "2014": {"rural_high": 3.12, "urban_high": 11.955, "medium": 7.712, "low": 3.429}, "2015": {"rural_high": 3.129, "urban_high": 12.14, "medium": 8.024, "low": 3.726}, "2016": {"rural_high": 3.707, "urban_high": 13.476, "medium": 7.583, "low": 3.45}, "2017": {"rural_high": 4.222, "urban_high": 14.942, "medium": 7.02, "low": 3.177}, "2018": {"rural_high": 4.845, "urban_high": 16.943, "medium": 5.905, "low": 2.827}, "2019": {"rural_high": 5.181, "urban_high": 17.53, "medium": 6.15, "low": 2.766}, "2020": {"rural_high": 5.727, "urban_high": 18.729, "medium": 5.776, "low": 2.557}, "2021": {"rural_high": 5.986, "urban_high": 19.886, "medium": 5.403, "low": 2.597}, "2022": {"rural_high": 6.12, "urban_high": 20.949, "medium": 5.207, "low": 2.679}, "2023": {"rural_high": 6.36, "urban_high": 22.217, "medium": 4.852, "low": 2.642}, "2024": {"rural_high": 6.497, "urban_high": 23.418, "medium": 4.554, "low": 2.717}}}, "Argentina": {"region": "Latin America and the Caribbean", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.105, "urban_high_2024": 0.299, "medium_2024": 11.897, "low_2024": 15.967, "trajectory": "Making Progress", "cagr_rural": -7.35, "cagr_urban": -43.18, "trend": {"2013": {"rural_high": 0.09, "urban_high": 4.617, "medium": 2.535, "low": 11.939}, "2014": {"rural_high": 0.081, "urban_high": 4.608, "medium": 3.972, "low": 12.727}, "2015": {"rural_high": 0.087, "urban_high": 4.69, "medium": 3.411, "low": 12.498}, "2016": {"rural_high": 0.095, "urban_high": 4.754, "medium": 3.568, "low": 12.614}, "2017": {"rural_high": 0.083, "urban_high": 4.762, "medium": 2.501, "low": 12.5}, "2018": {"rural_high": 0.144, "urban_high": 4.977, "medium": 3.88, "low": 13.394}, "2019": {"rural_high": 0.153, "urban_high": 5.044, "medium": 5.084, "low": 13.387}, "2020": {"rural_high": 0.162, "urban_high": 0.456, "medium": 12.142, "low": 13.836}, "2021": {"rural_high": 0.124, "urban_high": 0.349, "medium": 10.037, "low": 14.623}, "2022": {"rural_high": 0.085, "urban_high": 0.24, "medium": 10.492, "low": 15.406}, "2023": {"rural_high": 0.093, "urban_high": 0.265, "medium": 11.178, "low": 15.571}, "2024": {"rural_high": 0.105, "urban_high": 0.299, "medium": 11.897, "low": 15.967}}}, "Bangladesh": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": true, "rural_high_2024": 4.285, "urban_high_2024": 27.759, "medium_2024": 119.93, "low_2024": 17.485, "trajectory": "Uneven Gains", "cagr_rural": -14.84, "cagr_urban": 0.13, "trend": {"2013": {"rural_high": 18.651, "urban_high": 28.836, "medium": 102.46, "low": 5.619}, "2014": {"rural_high": 17.806, "urban_high": 28.874, "medium": 104.374, "low": 5.909}, "2015": {"rural_high": 16.823, "urban_high": 28.778, "medium": 106.426, "low": 6.316}, "2016": {"rural_high": 15.96, "urban_high": 29.099, "medium": 107.999, "low": 6.673}, "2017": {"rural_high": 13.346, "urban_high": 27.706, "medium": 111.796, "low": 8.06}, "2018": {"rural_high": 10.863, "urban_high": 27.755, "medium": 113.895, "low": 9.407}, "2019": {"rural_high": 9.565, "urban_high": 27.584, "medium": 115.346, "low": 10.506}, "2020": {"rural_high": 8.491, "urban_high": 27.728, "medium": 116.333, "low": 11.531}, "2021": {"rural_high": 7.003, "urban_high": 27.29, "medium": 117.448, "low": 13.102}, "2022": {"rural_high": 5.905, "urban_high": 27.317, "medium": 118.062, "low": 14.67}, "2023": {"rural_high": 5.108, "urban_high": 27.55, "medium": 119.205, "low": 15.833}, "2024": {"rural_high": 4.285, "urban_high": 27.759, "medium": 119.93, "low": 17.485}}}, "Benin": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 1.023, "urban_high_2024": 4.796, "medium_2024": 7.444, "low_2024": 1.044, "trajectory": "Uneven Gains", "cagr_rural": -7.83, "cagr_urban": 0.78, "trend": {"2013": {"rural_high": 3.746, "urban_high": 4.781, "medium": 1.768, "low": 0.343}, "2014": {"rural_high": 3.68, "urban_high": 4.982, "medium": 1.888, "low": 0.39}, "2015": {"rural_high": 3.787, "urban_high": 5.191, "medium": 1.88, "low": 0.406}, "2016": {"rural_high": 3.709, "urban_high": 5.408, "medium": 2.107, "low": 0.388}, "2017": {"rural_high": 2.977, "urban_high": 5.476, "medium": 3.023, "low": 0.462}, "2018": {"rural_high": 2.014, "urban_high": 4.808, "medium": 4.822, "low": 0.603}, "2019": {"rural_high": 1.537, "urban_high": 4.612, "medium": 5.679, "low": 0.747}, "2020": {"rural_high": 1.433, "urban_high": 4.67, "medium": 6.066, "low": 0.766}, "2021": {"rural_high": 1.226, "urban_high": 4.659, "medium": 6.567, "low": 0.825}, "2022": {"rural_high": 1.09, "urban_high": 4.631, "medium": 7.028, "low": 0.878}, "2023": {"rural_high": 1.051, "urban_high": 4.707, "medium": 7.27, "low": 0.933}, "2024": {"rural_high": 1.023, "urban_high": 4.796, "medium": 7.444, "low": 1.044}}}, "Bolivia": {"region": "Latin America and the Caribbean", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.106, "urban_high_2024": 0.153, "medium_2024": 3.244, "low_2024": 4.584, "trajectory": "Making Progress", "cagr_rural": -0.21, "cagr_urban": -44.18, "trend": {"2013": {"rural_high": 0.272, "urban_high": 2.72, "medium": 0.639, "low": 3.435}, "2014": {"rural_high": 0.227, "urban_high": 2.719, "medium": 0.739, "low": 3.573}, "2015": {"rural_high": 0.248, "urban_high": 2.796, "medium": 0.782, "low": 3.586}, "2016": {"rural_high": 0.304, "urban_high": 2.923, "medium": 0.693, "low": 3.599}, "2017": {"rural_high": 0.27, "urban_high": 2.933, "medium": 0.667, "low": 3.699}, "2018": {"rural_high": 0.181, "urban_high": 2.864, "medium": 0.722, "low": 3.978}, "2019": {"rural_high": 0.107, "urban_high": 2.816, "medium": 0.577, "low": 4.227}, "2020": {"rural_high": 0.175, "urban_high": 0.244, "medium": 3.373, "low": 4.132}, "2021": {"rural_high": 0.111, "urban_high": 0.154, "medium": 3.256, "low": 4.42}, "2022": {"rural_high": 0.104, "urban_high": 0.147, "medium": 3.163, "low": 4.473}, "2023": {"rural_high": 0.105, "urban_high": 0.15, "medium": 3.198, "low": 4.523}, "2024": {"rural_high": 0.106, "urban_high": 0.153, "medium": 3.244, "low": 4.584}}}, "Brazil": {"region": "Latin America and the Caribbean", "group": "HIGH IMPACT ", "critical9": true, "rural_high_2024": 2.258, "urban_high_2024": 5.495, "medium_2024": 69.737, "low_2024": 66.426, "trajectory": "Making Progress", "cagr_rural": -10.26, "cagr_urban": -27.73, "trend": {"2013": {"rural_high": 2.652, "urban_high": 23.554, "medium": 54.429, "low": 60.548}, "2014": {"rural_high": 2.37, "urban_high": 23.176, "medium": 52.155, "low": 61.823}, "2015": {"rural_high": 2.767, "urban_high": 24.321, "medium": 53.177, "low": 62.701}, "2016": {"rural_high": 3.382, "urban_high": 26.011, "medium": 55.116, "low": 61.305}, "2017": {"rural_high": 3.792, "urban_high": 27.221, "medium": 53.684, "low": 61.534}, "2018": {"rural_high": 3.802, "urban_high": 27.496, "medium": 52.226, "low": 61.552}, "2019": {"rural_high": 3.879, "urban_high": 27.877, "medium": 50.766, "low": 62.337}, "2020": {"rural_high": 1.402, "urban_high": 3.387, "medium": 66.973, "low": 74.73}, "2021": {"rural_high": 4.185, "urban_high": 10.087, "medium": 77.31, "low": 61.344}, "2022": {"rural_high": 2.513, "urban_high": 6.024, "medium": 71.998, "low": 65.53}, "2023": {"rural_high": 2.31, "urban_high": 5.58, "medium": 70.754, "low": 65.955}, "2024": {"rural_high": 2.258, "urban_high": 5.495, "medium": 69.737, "low": 66.426}}}, "Burkina Faso": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 4.349, "urban_high_2024": 3.788, "medium_2024": 14.087, "low_2024": 1.117, "trajectory": "Uneven Gains", "cagr_rural": -2.33, "cagr_urban": 0.34, "trend": {"2013": {"rural_high": 5.858, "urban_high": 3.92, "medium": 7.426, "low": 0.4}, "2014": {"rural_high": 5.761, "urban_high": 3.914, "medium": 8.056, "low": 0.407}, "2015": {"rural_high": 5.964, "urban_high": 4.044, "medium": 8.155, "low": 0.501}, "2016": {"rural_high": 5.617, "urban_high": 3.961, "medium": 8.924, "low": 0.676}, "2017": {"rural_high": 5.333, "urban_high": 3.884, "medium": 9.586, "low": 0.848}, "2018": {"rural_high": 5.078, "urban_high": 3.812, "medium": 10.151, "low": 1.054}, "2019": {"rural_high": 4.892, "urban_high": 3.725, "medium": 10.861, "low": 1.125}, "2020": {"rural_high": 4.784, "urban_high": 3.664, "medium": 11.676, "low": 1.061}, "2021": {"rural_high": 4.381, "urban_high": 3.514, "medium": 12.797, "low": 1.064}, "2022": {"rural_high": 4.34, "urban_high": 3.684, "medium": 13.281, "low": 1.015}, "2023": {"rural_high": 4.334, "urban_high": 3.729, "medium": 13.689, "low": 1.078}, "2024": {"rural_high": 4.349, "urban_high": 3.788, "medium": 14.087, "low": 1.117}}}, "Cambodia": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.0, "urban_high_2024": 1.222, "medium_2024": 0.0, "low_2024": 0.0, "trajectory": "Uneven Gains", "cagr_rural": 0, "cagr_urban": 1.63, "trend": {"2013": {"rural_high": 0.0, "urban_high": 1.147, "medium": 0.0, "low": 0.0}, "2014": {"rural_high": 0.0, "urban_high": 1.098, "medium": 0.0, "low": 0.0}, "2015": {"rural_high": 0.0, "urban_high": 1.076, "medium": 0.0, "low": 0.0}, "2016": {"rural_high": 0.0, "urban_high": 1.034, "medium": 0.0, "low": 0.0}, "2017": {"rural_high": 0.0, "urban_high": 1.037, "medium": 0.0, "low": 0.0}, "2018": {"rural_high": 0.0, "urban_high": 1.065, "medium": 0.0, "low": 0.0}, "2019": {"rural_high": 0.0, "urban_high": 1.127, "medium": 0.0, "low": 0.0}, "2020": {"rural_high": 0.0, "urban_high": 1.159, "medium": 0.0, "low": 0.0}, "2021": {"rural_high": 0.0, "urban_high": 1.16, "medium": 0.0, "low": 0.0}, "2022": {"rural_high": 0.0, "urban_high": 1.179, "medium": 0.0, "low": 0.0}, "2023": {"rural_high": 0.0, "urban_high": 1.2, "medium": 0.0, "low": 0.0}, "2024": {"rural_high": 0.0, "urban_high": 1.222, "medium": 0.0, "low": 0.0}}}, "Cameroon": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 3.547, "urban_high_2024": 7.244, "medium_2024": 14.761, "low_2024": 2.935, "trajectory": "Losing Ground", "cagr_rural": 1.07, "cagr_urban": 0.94, "trend": {"2013": {"rural_high": 3.639, "urban_high": 6.944, "medium": 8.42, "low": 1.837}, "2014": {"rural_high": 3.369, "urban_high": 6.778, "medium": 8.896, "low": 2.299}, "2015": {"rural_high": 3.348, "urban_high": 6.821, "medium": 9.472, "low": 2.4}, "2016": {"rural_high": 3.358, "urban_high": 6.868, "medium": 10.049, "low": 2.458}, "2017": {"rural_high": 3.373, "urban_high": 6.905, "medium": 10.643, "low": 2.497}, "2018": {"rural_high": 3.346, "urban_high": 6.988, "medium": 11.226, "low": 2.555}, "2019": {"rural_high": 3.363, "urban_high": 6.914, "medium": 11.959, "low": 2.601}, "2020": {"rural_high": 3.548, "urban_high": 7.081, "medium": 12.402, "low": 2.565}, "2021": {"rural_high": 3.542, "urban_high": 7.088, "medium": 13.092, "low": 2.601}, "2022": {"rural_high": 3.538, "urban_high": 7.169, "medium": 13.688, "low": 2.653}, "2023": {"rural_high": 3.54, "urban_high": 7.203, "medium": 14.245, "low": 2.776}, "2024": {"rural_high": 3.547, "urban_high": 7.244, "medium": 14.761, "low": 2.935}}}, "Chad": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 5.046, "urban_high_2024": 4.856, "medium_2024": 9.438, "low_2024": 0.835, "trajectory": "Losing Ground", "cagr_rural": 3.93, "cagr_urban": 4.57, "trend": {"2013": {"rural_high": 3.633, "urban_high": 3.046, "medium": 6.23, "low": 0.666}, "2014": {"rural_high": 3.502, "urban_high": 3.174, "medium": 6.662, "low": 0.723}, "2015": {"rural_high": 3.477, "urban_high": 3.298, "medium": 7.014, "low": 0.728}, "2016": {"rural_high": 3.878, "urban_high": 3.428, "medium": 7.04, "low": 0.658}, "2017": {"rural_high": 4.132, "urban_high": 3.571, "medium": 7.209, "low": 0.611}, "2018": {"rural_high": 4.186, "urban_high": 3.726, "medium": 7.523, "low": 0.622}, "2019": {"rural_high": 4.161, "urban_high": 3.884, "medium": 7.868, "low": 0.664}, "2020": {"rural_high": 4.393, "urban_high": 4.051, "medium": 7.998, "low": 0.681}, "2021": {"rural_high": 4.634, "urban_high": 4.24, "medium": 8.159, "low": 0.691}, "2022": {"rural_high": 4.665, "urban_high": 4.441, "medium": 8.484, "low": 0.755}, "2023": {"rural_high": 4.804, "urban_high": 4.662, "medium": 8.939, "low": 0.795}, "2024": {"rural_high": 5.046, "urban_high": 4.856, "medium": 9.438, "low": 0.835}}}, "China": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": true, "rural_high_2024": 0.0, "urban_high_2024": 69.683, "medium_2024": 393.968, "low_2024": 596.445, "trajectory": "Uneven Gains", "cagr_rural": 0, "cagr_urban": -4.52, "trend": {"2013": {"rural_high": 21.806, "urban_high": 149.621, "medium": 744.386, "low": 333.154}, "2014": {"rural_high": 14.044, "urban_high": 124.446, "medium": 724.156, "low": 372.969}, "2015": {"rural_high": 4.5, "urban_high": 109.758, "medium": 701.288, "low": 407.145}, "2016": {"rural_high": 0.639, "urban_high": 100.368, "medium": 670.724, "low": 432.898}, "2017": {"rural_high": 0.0, "urban_high": 98.176, "medium": 642.094, "low": 448.323}, "2018": {"rural_high": 0.0, "urban_high": 92.708, "medium": 595.481, "low": 477.638}, "2019": {"rural_high": 0.0, "urban_high": 87.827, "medium": 557.481, "low": 501.076}, "2020": {"rural_high": 0.0, "urban_high": 96.795, "medium": 574.423, "low": 512.232}, "2021": {"rural_high": 0.0, "urban_high": 76.011, "medium": 461.018, "low": 580.748}, "2022": {"rural_high": 0.0, "urban_high": 76.996, "medium": 454.582, "low": 582.069}, "2023": {"rural_high": 0.0, "urban_high": 73.079, "medium": 423.703, "low": 590.848}, "2024": {"rural_high": 0.0, "urban_high": 69.683, "medium": 393.968, "low": 596.445}}}, "Congo, Rep.": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 1.346, "urban_high_2024": 3.472, "medium_2024": 1.193, "low_2024": 0.232, "trajectory": "Losing Ground", "cagr_rural": 2.82, "cagr_urban": 2.6, "trend": {"2013": {"rural_high": 0.892, "urban_high": 2.664, "medium": 0.93, "low": 0.261}, "2014": {"rural_high": 0.882, "urban_high": 2.64, "medium": 1.053, "low": 0.284}, "2015": {"rural_high": 0.909, "urban_high": 2.656, "medium": 1.134, "low": 0.28}, "2016": {"rural_high": 1.003, "urban_high": 2.751, "medium": 1.111, "low": 0.247}, "2017": {"rural_high": 1.093, "urban_high": 2.879, "medium": 1.048, "low": 0.228}, "2018": {"rural_high": 1.141, "urban_high": 2.957, "medium": 1.071, "low": 0.212}, "2019": {"rural_high": 1.172, "urban_high": 3.053, "medium": 1.077, "low": 0.212}, "2020": {"rural_high": 1.264, "urban_high": 3.231, "medium": 0.968, "low": 0.209}, "2021": {"rural_high": 1.3, "urban_high": 3.309, "medium": 0.997, "low": 0.204}, "2022": {"rural_high": 1.328, "urban_high": 3.38, "medium": 1.038, "low": 0.206}, "2023": {"rural_high": 1.336, "urban_high": 3.424, "medium": 1.112, "low": 0.224}, "2024": {"rural_high": 1.346, "urban_high": 3.472, "medium": 1.193, "low": 0.232}}}, "Cote d'Ivoire": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 1.466, "urban_high_2024": 7.665, "medium_2024": 19.01, "low_2024": 3.246, "trajectory": "Uneven Gains", "cagr_rural": -5.28, "cagr_urban": 1.41, "trend": {"2013": {"rural_high": 5.423, "urban_high": 8.868, "medium": 8.373, "low": 1.051}, "2014": {"rural_high": 5.331, "urban_high": 8.933, "medium": 8.926, "low": 1.102}, "2015": {"rural_high": 5.313, "urban_high": 9.254, "medium": 9.335, "low": 1.102}, "2016": {"rural_high": 4.144, "urban_high": 8.362, "medium": 11.644, "low": 1.526}, "2017": {"rural_high": 2.992, "urban_high": 7.644, "medium": 13.63, "low": 2.042}, "2018": {"rural_high": 2.408, "urban_high": 7.326, "medium": 14.869, "low": 2.41}, "2019": {"rural_high": 1.923, "urban_high": 7.147, "medium": 15.891, "low": 2.751}, "2020": {"rural_high": 2.03, "urban_high": 7.424, "medium": 16.417, "low": 2.598}, "2021": {"rural_high": 1.898, "urban_high": 7.48, "medium": 17.191, "low": 2.621}, "2022": {"rural_high": 1.746, "urban_high": 7.543, "medium": 17.966, "low": 2.68}, "2023": {"rural_high": 1.632, "urban_high": 7.625, "medium": 18.502, "low": 2.913}, "2024": {"rural_high": 1.466, "urban_high": 7.665, "medium": 19.01, "low": 3.246}}}, "Djibouti": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.074, "urban_high_2024": 0.204, "medium_2024": 0.736, "low_2024": 0.122, "trajectory": "Making Progress", "cagr_rural": -1.16, "cagr_urban": -0.44, "trend": {"2013": {"rural_high": 0.103, "urban_high": 0.254, "medium": 0.528, "low": 0.078}, "2014": {"rural_high": 0.098, "urban_high": 0.246, "medium": 0.558, "low": 0.08}, "2015": {"rural_high": 0.093, "urban_high": 0.237, "medium": 0.587, "low": 0.081}, "2016": {"rural_high": 0.089, "urban_high": 0.229, "medium": 0.614, "low": 0.085}, "2017": {"rural_high": 0.084, "urban_high": 0.22, "medium": 0.643, "low": 0.087}, "2018": {"rural_high": 0.081, "urban_high": 0.215, "medium": 0.661, "low": 0.092}, "2019": {"rural_high": 0.078, "urban_high": 0.209, "medium": 0.679, "low": 0.099}, "2020": {"rural_high": 0.079, "urban_high": 0.21, "medium": 0.69, "low": 0.1}, "2021": {"rural_high": 0.078, "urban_high": 0.208, "medium": 0.704, "low": 0.103}, "2022": {"rural_high": 0.078, "urban_high": 0.21, "medium": 0.716, "low": 0.106}, "2023": {"rural_high": 0.074, "urban_high": 0.205, "medium": 0.732, "low": 0.112}, "2024": {"rural_high": 0.074, "urban_high": 0.204, "medium": 0.736, "low": 0.122}}}, "Dominican Republic": {"region": "Latin America and the Caribbean", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.019, "urban_high_2024": 0.827, "medium_2024": 3.574, "low_2024": 4.472, "trajectory": "Uneven Gains", "cagr_rural": -11.32, "cagr_urban": 1.14, "trend": {"2013": {"rural_high": 0.129, "urban_high": 1.03, "medium": 4.886, "low": 2.642}, "2014": {"rural_high": 0.144, "urban_high": 1.018, "medium": 4.457, "low": 2.855}, "2015": {"rural_high": 0.109, "urban_high": 0.912, "medium": 4.207, "low": 3.192}, "2016": {"rural_high": 0.087, "urban_high": 0.821, "medium": 4.011, "low": 3.386}, "2017": {"rural_high": 0.042, "urban_high": 0.761, "medium": 4.147, "low": 3.712}, "2018": {"rural_high": 0.035, "urban_high": 0.767, "medium": 3.907, "low": 3.784}, "2019": {"rural_high": 0.035, "urban_high": 0.782, "medium": 3.594, "low": 4.023}, "2020": {"rural_high": 0.04, "urban_high": 0.797, "medium": 4.191, "low": 3.808}, "2021": {"rural_high": 0.036, "urban_high": 0.824, "medium": 4.316, "low": 3.994}, "2022": {"rural_high": 0.031, "urban_high": 0.818, "medium": 3.89, "low": 4.336}, "2023": {"rural_high": 0.027, "urban_high": 0.824, "medium": 3.792, "low": 4.412}, "2024": {"rural_high": 0.019, "urban_high": 0.827, "medium": 3.574, "low": 4.472}}}, "Egypt, Arab Rep.": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.778, "urban_high_2024": 0.47, "medium_2024": 97.083, "low_2024": 14.866, "trajectory": "Making Progress", "cagr_rural": -8.53, "cagr_urban": -14.2, "trend": {"2013": {"rural_high": 0.634, "urban_high": 2.225, "medium": 81.112, "low": 9.427}, "2014": {"rural_high": 0.66, "urban_high": 1.473, "medium": 82.99, "low": 10.082}, "2015": {"rural_high": 0.61, "urban_high": 1.155, "medium": 83.481, "low": 11.672}, "2016": {"rural_high": 1.068, "urban_high": 0.907, "medium": 86.363, "low": 10.765}, "2017": {"rural_high": 1.456, "urban_high": 1.142, "medium": 88.911, "low": 9.869}, "2018": {"rural_high": 1.656, "urban_high": 1.265, "medium": 91.03, "low": 9.547}, "2019": {"rural_high": 1.215, "urban_high": 1.01, "medium": 92.161, "low": 10.706}, "2020": {"rural_high": 1.078, "urban_high": 0.64, "medium": 93.675, "low": 11.346}, "2021": {"rural_high": 0.921, "urban_high": 0.548, "medium": 94.598, "low": 12.118}, "2022": {"rural_high": 0.85, "urban_high": 0.508, "medium": 94.813, "low": 13.387}, "2023": {"rural_high": 0.802, "urban_high": 0.482, "medium": 95.844, "low": 14.19}, "2024": {"rural_high": 0.778, "urban_high": 0.47, "medium": 97.083, "low": 14.866}}}, "Eritrea": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.0, "urban_high_2024": 0.116, "medium_2024": 0.0, "low_2024": 0.0, "trajectory": "Uneven Gains", "cagr_rural": 0, "cagr_urban": 4.11, "trend": {"2013": {"rural_high": 0.0, "urban_high": 0.078, "medium": 0.0, "low": 0.0}, "2014": {"rural_high": 0.0, "urban_high": 0.08, "medium": 0.0, "low": 0.0}, "2015": {"rural_high": 0.0, "urban_high": 0.082, "medium": 0.0, "low": 0.0}, "2016": {"rural_high": 0.0, "urban_high": 0.085, "medium": 0.0, "low": 0.0}, "2017": {"rural_high": 0.0, "urban_high": 0.088, "medium": 0.0, "low": 0.0}, "2018": {"rural_high": 0.0, "urban_high": 0.091, "medium": 0.0, "low": 0.0}, "2019": {"rural_high": 0.0, "urban_high": 0.095, "medium": 0.0, "low": 0.0}, "2020": {"rural_high": 0.0, "urban_high": 0.098, "medium": 0.0, "low": 0.0}, "2021": {"rural_high": 0.0, "urban_high": 0.103, "medium": 0.0, "low": 0.0}, "2022": {"rural_high": 0.0, "urban_high": 0.107, "medium": 0.0, "low": 0.0}, "2023": {"rural_high": 0.0, "urban_high": 0.111, "medium": 0.0, "low": 0.0}, "2024": {"rural_high": 0.0, "urban_high": 0.116, "medium": 0.0, "low": 0.0}}}, "Eswatini": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.306, "urban_high_2024": 0.12, "medium_2024": 0.612, "low_2024": 0.134, "trajectory": "Making Progress", "cagr_rural": -1.65, "cagr_urban": -0.25, "trend": {"2013": {"rural_high": 0.338, "urban_high": 0.146, "medium": 0.501, "low": 0.102}, "2014": {"rural_high": 0.343, "urban_high": 0.136, "medium": 0.508, "low": 0.104}, "2015": {"rural_high": 0.336, "urban_high": 0.131, "medium": 0.515, "low": 0.111}, "2016": {"rural_high": 0.341, "urban_high": 0.126, "medium": 0.517, "low": 0.113}, "2017": {"rural_high": 0.34, "urban_high": 0.124, "medium": 0.526, "low": 0.114}, "2018": {"rural_high": 0.337, "urban_high": 0.123, "medium": 0.538, "low": 0.116}, "2019": {"rural_high": 0.333, "urban_high": 0.121, "medium": 0.55, "low": 0.12}, "2020": {"rural_high": 0.345, "urban_high": 0.124, "medium": 0.55, "low": 0.119}, "2021": {"rural_high": 0.313, "urban_high": 0.113, "medium": 0.589, "low": 0.128}, "2022": {"rural_high": 0.316, "urban_high": 0.122, "medium": 0.589, "low": 0.13}, "2023": {"rural_high": 0.311, "urban_high": 0.121, "medium": 0.6, "low": 0.132}, "2024": {"rural_high": 0.306, "urban_high": 0.12, "medium": 0.612, "low": 0.134}}}, "Gambia, The": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.209, "urban_high_2024": 0.787, "medium_2024": 1.499, "low_2024": 0.222, "trajectory": "Losing Ground", "cagr_rural": 0.58, "cagr_urban": 1.23, "trend": {"2013": {"rural_high": 0.256, "urban_high": 0.749, "medium": 0.959, "low": 0.107}, "2014": {"rural_high": 0.228, "urban_high": 0.725, "medium": 1.067, "low": 0.112}, "2015": {"rural_high": 0.179, "urban_high": 0.687, "medium": 1.198, "low": 0.124}, "2016": {"rural_high": 0.182, "urban_high": 0.699, "medium": 1.237, "low": 0.13}, "2017": {"rural_high": 0.194, "urban_high": 0.702, "medium": 1.27, "low": 0.139}, "2018": {"rural_high": 0.197, "urban_high": 0.732, "medium": 1.276, "low": 0.157}, "2019": {"rural_high": 0.203, "urban_high": 0.74, "medium": 1.3, "low": 0.174}, "2020": {"rural_high": 0.23, "urban_high": 0.772, "medium": 1.301, "low": 0.176}, "2021": {"rural_high": 0.228, "urban_high": 0.776, "medium": 1.349, "low": 0.185}, "2022": {"rural_high": 0.223, "urban_high": 0.783, "medium": 1.392, "low": 0.198}, "2023": {"rural_high": 0.217, "urban_high": 0.787, "medium": 1.442, "low": 0.21}, "2024": {"rural_high": 0.209, "urban_high": 0.787, "medium": 1.499, "low": 0.222}}}, "Ghana": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 4.273, "urban_high_2024": 9.273, "medium_2024": 16.785, "low_2024": 3.363, "trajectory": "Losing Ground", "cagr_rural": 0.69, "cagr_urban": 2.27, "trend": {"2013": {"rural_high": 4.219, "urban_high": 7.831, "medium": 12.74, "low": 2.208}, "2014": {"rural_high": 4.316, "urban_high": 7.867, "medium": 13.208, "low": 2.24}, "2015": {"rural_high": 4.452, "urban_high": 8.14, "medium": 13.43, "low": 2.248}, "2016": {"rural_high": 4.526, "urban_high": 8.184, "medium": 13.885, "low": 2.311}, "2017": {"rural_high": 4.356, "urban_high": 8.25, "medium": 14.341, "low": 2.537}, "2018": {"rural_high": 4.228, "urban_high": 8.364, "medium": 14.729, "low": 2.737}, "2019": {"rural_high": 4.129, "urban_high": 8.288, "medium": 15.243, "low": 2.957}, "2020": {"rural_high": 4.22, "urban_high": 8.55, "medium": 15.532, "low": 2.947}, "2021": {"rural_high": 4.168, "urban_high": 8.656, "medium": 15.851, "low": 3.163}, "2022": {"rural_high": 4.18, "urban_high": 8.864, "medium": 16.138, "low": 3.251}, "2023": {"rural_high": 4.271, "urban_high": 9.109, "medium": 16.436, "low": 3.267}, "2024": {"rural_high": 4.273, "urban_high": 9.273, "medium": 16.785, "low": 3.363}}}, "Guinea": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 1.105, "urban_high_2024": 2.695, "medium_2024": 10.169, "low_2024": 0.752, "trajectory": "Uneven Gains", "cagr_rural": -2.94, "cagr_urban": 2.18, "trend": {"2013": {"rural_high": 1.945, "urban_high": 2.361, "medium": 6.551, "low": 0.291}, "2014": {"rural_high": 1.901, "urban_high": 2.395, "medium": 6.844, "low": 0.294}, "2015": {"rural_high": 1.845, "urban_high": 2.426, "medium": 7.165, "low": 0.298}, "2016": {"rural_high": 1.63, "urban_high": 2.382, "medium": 7.684, "low": 0.349}, "2017": {"rural_high": 1.446, "urban_high": 2.363, "medium": 8.125, "low": 0.428}, "2018": {"rural_high": 1.346, "urban_high": 2.354, "medium": 8.531, "low": 0.456}, "2019": {"rural_high": 1.283, "urban_high": 2.42, "medium": 8.825, "low": 0.49}, "2020": {"rural_high": 1.245, "urban_high": 2.458, "medium": 9.118, "low": 0.531}, "2021": {"rural_high": 1.236, "urban_high": 2.52, "medium": 9.366, "low": 0.568}, "2022": {"rural_high": 1.216, "urban_high": 2.586, "medium": 9.615, "low": 0.614}, "2023": {"rural_high": 1.146, "urban_high": 2.631, "medium": 9.907, "low": 0.692}, "2024": {"rural_high": 1.105, "urban_high": 2.695, "medium": 10.169, "low": 0.752}}}, "Guinea-Bissau": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.345, "urban_high_2024": 0.715, "medium_2024": 1.06, "low_2024": 0.073, "trajectory": "Losing Ground", "cagr_rural": 3.66, "cagr_urban": 1.13, "trend": {"2013": {"rural_high": 0.675, "urban_high": 0.701, "medium": 0.27, "low": 0.028}, "2014": {"rural_high": 0.569, "urban_high": 0.726, "medium": 0.381, "low": 0.045}, "2015": {"rural_high": 0.598, "urban_high": 0.752, "medium": 0.385, "low": 0.032}, "2016": {"rural_high": 0.44, "urban_high": 0.769, "medium": 0.548, "low": 0.056}, "2017": {"rural_high": 0.365, "urban_high": 0.725, "medium": 0.703, "low": 0.069}, "2018": {"rural_high": 0.324, "urban_high": 0.7, "medium": 0.814, "low": 0.073}, "2019": {"rural_high": 0.288, "urban_high": 0.676, "medium": 0.915, "low": 0.077}, "2020": {"rural_high": 0.337, "urban_high": 0.703, "medium": 0.897, "low": 0.068}, "2021": {"rural_high": 0.348, "urban_high": 0.708, "medium": 0.93, "low": 0.065}, "2022": {"rural_high": 0.36, "urban_high": 0.723, "medium": 0.952, "low": 0.064}, "2023": {"rural_high": 0.353, "urban_high": 0.719, "medium": 1.007, "low": 0.066}, "2024": {"rural_high": 0.345, "urban_high": 0.715, "medium": 1.06, "low": 0.073}}}, "India": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": true, "rural_high_2024": 93.025, "urban_high_2024": 225.762, "medium_2024": 990.395, "low_2024": 128.153, "trajectory": "Uneven Gains", "cagr_rural": -5.67, "cagr_urban": 0.61, "trend": {"2013": {"rural_high": 212.837, "urban_high": 235.319, "medium": 788.98, "low": 47.447}, "2014": {"rural_high": 202.962, "urban_high": 234.73, "medium": 811.236, "low": 52.26}, "2015": {"rural_high": 191.059, "urban_high": 233.467, "medium": 834.93, "low": 57.406}, "2016": {"rural_high": 183.8, "urban_high": 233.569, "medium": 855.511, "low": 59.103}, "2017": {"rural_high": 146.219, "urban_high": 221.057, "medium": 903.416, "low": 72.12}, "2018": {"rural_high": 116.16, "urban_high": 211.554, "medium": 940.186, "low": 90.347}, "2019": {"rural_high": 124.553, "urban_high": 218.958, "medium": 934.441, "low": 98.764}, "2020": {"rural_high": 158.855, "urban_high": 240.208, "medium": 909.714, "low": 86.124}, "2021": {"rural_high": 141.025, "urban_high": 235.263, "medium": 940.628, "low": 90.258}, "2022": {"rural_high": 120.157, "urban_high": 230.014, "medium": 965.063, "low": 100.697}, "2023": {"rural_high": 106.65, "urban_high": 227.992, "medium": 978.798, "low": 113.159}, "2024": {"rural_high": 93.025, "urban_high": 225.762, "medium": 990.395, "low": 128.153}}}, "Indonesia": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": true, "rural_high_2024": 2.455, "urban_high_2024": 22.799, "medium_2024": 202.582, "low_2024": 42.91, "trajectory": "Making Progress", "cagr_rural": -14.2, "cagr_urban": -2.59, "trend": {"2013": {"rural_high": 16.796, "urban_high": 36.22, "medium": 175.042, "low": 22.552}, "2014": {"rural_high": 15.093, "urban_high": 34.879, "medium": 180.689, "low": 22.584}, "2015": {"rural_high": 13.208, "urban_high": 33.277, "medium": 187.261, "low": 21.644}, "2016": {"rural_high": 10.456, "urban_high": 30.872, "medium": 189.329, "low": 27.112}, "2017": {"rural_high": 6.767, "urban_high": 27.463, "medium": 187.295, "low": 37.924}, "2018": {"rural_high": 6.934, "urban_high": 27.359, "medium": 188.871, "low": 39.007}, "2019": {"rural_high": 5.281, "urban_high": 25.998, "medium": 193.386, "low": 40.506}, "2020": {"rural_high": 4.467, "urban_high": 25.442, "medium": 193.948, "low": 42.476}, "2021": {"rural_high": 4.486, "urban_high": 25.209, "medium": 196.548, "low": 41.664}, "2022": {"rural_high": 3.421, "urban_high": 24.03, "medium": 200.721, "low": 40.253}, "2023": {"rural_high": 2.851, "urban_high": 23.337, "medium": 202.624, "low": 40.58}, "2024": {"rural_high": 2.455, "urban_high": 22.799, "medium": 202.582, "low": 42.91}}}, "Iran, Islamic Rep.": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.157, "urban_high_2024": 0.275, "medium_2024": 38.308, "low_2024": 37.124, "trajectory": "Making Progress", "cagr_rural": -10.71, "cagr_urban": -9.43, "trend": {"2013": {"rural_high": 0.106, "urban_high": 0.16, "medium": 35.742, "low": 32.036}, "2014": {"rural_high": 0.193, "urban_high": 0.293, "medium": 37.762, "low": 31.346}, "2015": {"rural_high": 0.17, "urban_high": 0.262, "medium": 38.613, "low": 31.553}, "2016": {"rural_high": 0.16, "urban_high": 0.252, "medium": 38.775, "low": 31.791}, "2017": {"rural_high": 0.13, "urban_high": 0.206, "medium": 37.23, "low": 32.441}, "2018": {"rural_high": 0.212, "urban_high": 0.342, "medium": 39.096, "low": 31.623}, "2019": {"rural_high": 0.276, "urban_high": 0.452, "medium": 44.273, "low": 30.342}, "2020": {"rural_high": 0.299, "urban_high": 0.496, "medium": 45.893, "low": 30.173}, "2021": {"rural_high": 0.272, "urban_high": 0.458, "medium": 42.534, "low": 32.565}, "2022": {"rural_high": 0.188, "urban_high": 0.321, "medium": 39.5, "low": 35.334}, "2023": {"rural_high": 0.162, "urban_high": 0.281, "medium": 38.902, "low": 36.393}, "2024": {"rural_high": 0.157, "urban_high": 0.275, "medium": 38.308, "low": 37.124}}}, "Iraq": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.026, "urban_high_2024": 12.235, "medium_2024": 14.106, "low_2024": 16.279, "trajectory": "Losing Ground", "cagr_rural": 33.64, "cagr_urban": 4.31, "trend": {"2013": {"rural_high": 0.013, "urban_high": 7.573, "medium": 10.676, "low": 13.759}, "2014": {"rural_high": 0.016, "urban_high": 8.002, "medium": 11.569, "low": 13.805}, "2015": {"rural_high": 0.014, "urban_high": 8.381, "medium": 11.341, "low": 14.462}, "2016": {"rural_high": 0.005, "urban_high": 8.737, "medium": 9.051, "low": 16.411}, "2017": {"rural_high": 0.009, "urban_high": 9.112, "medium": 10.05, "low": 16.143}, "2018": {"rural_high": 0.009, "urban_high": 9.515, "medium": 10.048, "low": 16.567}, "2019": {"rural_high": 0.006, "urban_high": 9.906, "medium": 9.386, "low": 17.438}, "2020": {"rural_high": 0.02, "urban_high": 10.34, "medium": 12.959, "low": 15.402}, "2021": {"rural_high": 0.021, "urban_high": 10.784, "medium": 13.199, "low": 15.678}, "2022": {"rural_high": 0.018, "urban_high": 11.241, "medium": 12.187, "low": 16.761}, "2023": {"rural_high": 0.022, "urban_high": 11.727, "medium": 13.539, "low": 16.273}, "2024": {"rural_high": 0.026, "urban_high": 12.235, "medium": 14.106, "low": 16.279}}}, "Lao PDR": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.302, "urban_high_2024": 0.53, "medium_2024": 5.672, "low_2024": 0.989, "trajectory": "Making Progress", "cagr_rural": -3.25, "cagr_urban": -1.57, "trend": {"2013": {"rural_high": 0.513, "urban_high": 0.687, "medium": 4.744, "low": 0.551}, "2014": {"rural_high": 0.482, "urban_high": 0.669, "medium": 4.832, "low": 0.583}, "2015": {"rural_high": 0.453, "urban_high": 0.654, "medium": 4.893, "low": 0.648}, "2016": {"rural_high": 0.426, "urban_high": 0.629, "medium": 4.985, "low": 0.693}, "2017": {"rural_high": 0.396, "urban_high": 0.602, "medium": 5.082, "low": 0.74}, "2018": {"rural_high": 0.379, "urban_high": 0.584, "medium": 5.165, "low": 0.778}, "2019": {"rural_high": 0.356, "urban_high": 0.574, "medium": 5.24, "low": 0.833}, "2020": {"rural_high": 0.37, "urban_high": 0.581, "medium": 5.324, "low": 0.835}, "2021": {"rural_high": 0.36, "urban_high": 0.572, "medium": 5.42, "low": 0.858}, "2022": {"rural_high": 0.351, "urban_high": 0.563, "medium": 5.505, "low": 0.889}, "2023": {"rural_high": 0.32, "urban_high": 0.543, "medium": 5.607, "low": 0.927}, "2024": {"rural_high": 0.302, "urban_high": 0.53, "medium": 5.672, "low": 0.989}}}, "Liberia": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.912, "urban_high_2024": 2.457, "medium_2024": 2.033, "low_2024": 0.196, "trajectory": "Losing Ground", "cagr_rural": 0.01, "cagr_urban": 0.7, "trend": {"2013": {"rural_high": 0.784, "urban_high": 2.164, "medium": 1.379, "low": 0.131}, "2014": {"rural_high": 0.745, "urban_high": 2.186, "medium": 1.48, "low": 0.139}, "2015": {"rural_high": 0.766, "urban_high": 2.17, "medium": 1.553, "low": 0.156}, "2016": {"rural_high": 0.818, "urban_high": 2.208, "medium": 1.551, "low": 0.165}, "2017": {"rural_high": 0.823, "urban_high": 2.182, "medium": 1.662, "low": 0.169}, "2018": {"rural_high": 0.845, "urban_high": 2.262, "medium": 1.653, "low": 0.172}, "2019": {"rural_high": 0.912, "urban_high": 2.373, "medium": 1.591, "low": 0.156}, "2020": {"rural_high": 0.988, "urban_high": 2.427, "medium": 1.592, "low": 0.131}, "2021": {"rural_high": 0.976, "urban_high": 2.434, "medium": 1.685, "low": 0.151}, "2022": {"rural_high": 0.945, "urban_high": 2.424, "medium": 1.824, "low": 0.167}, "2023": {"rural_high": 0.932, "urban_high": 2.443, "medium": 1.927, "low": 0.177}, "2024": {"rural_high": 0.912, "urban_high": 2.457, "medium": 2.033, "low": 0.196}}}, "Malawi": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 13.366, "urban_high_2024": 4.028, "medium_2024": 4.093, "low_2024": 0.151, "trajectory": "Losing Ground", "cagr_rural": 3.1, "cagr_urban": 4.27, "trend": {"2013": {"rural_high": 9.518, "urban_high": 2.58, "medium": 3.794, "low": 0.199}, "2014": {"rural_high": 9.492, "urban_high": 2.681, "medium": 4.162, "low": 0.213}, "2015": {"rural_high": 9.794, "urban_high": 2.787, "medium": 4.233, "low": 0.208}, "2016": {"rural_high": 10.137, "urban_high": 2.898, "medium": 4.269, "low": 0.2}, "2017": {"rural_high": 10.543, "urban_high": 3.015, "medium": 4.244, "low": 0.194}, "2018": {"rural_high": 11.032, "urban_high": 3.138, "medium": 4.152, "low": 0.174}, "2019": {"rural_high": 11.476, "urban_high": 3.268, "medium": 4.096, "low": 0.165}, "2020": {"rural_high": 11.969, "urban_high": 3.404, "medium": 3.995, "low": 0.149}, "2021": {"rural_high": 12.246, "urban_high": 3.547, "medium": 4.083, "low": 0.153}, "2022": {"rural_high": 12.647, "urban_high": 3.698, "medium": 4.059, "low": 0.147}, "2023": {"rural_high": 13.013, "urban_high": 3.858, "medium": 4.068, "low": 0.148}, "2024": {"rural_high": 13.366, "urban_high": 4.028, "medium": 4.093, "low": 0.151}}}, "Mali": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 3.204, "urban_high_2024": 5.024, "medium_2024": 14.752, "low_2024": 1.287, "trajectory": "Losing Ground", "cagr_rural": 7.59, "cagr_urban": 2.83, "trend": {"2013": {"rural_high": 4.92, "urban_high": 5.557, "medium": 6.483, "low": 0.446}, "2014": {"rural_high": 4.39, "urban_high": 5.388, "medium": 7.572, "low": 0.59}, "2015": {"rural_high": 4.928, "urban_high": 5.733, "medium": 7.506, "low": 0.405}, "2016": {"rural_high": 3.698, "urban_high": 5.184, "medium": 9.541, "low": 0.693}, "2017": {"rural_high": 2.935, "urban_high": 4.806, "medium": 10.955, "low": 0.983}, "2018": {"rural_high": 2.364, "urban_high": 4.539, "medium": 12.084, "low": 1.258}, "2019": {"rural_high": 2.223, "urban_high": 4.371, "medium": 12.831, "low": 1.401}, "2020": {"rural_high": 2.693, "urban_high": 4.618, "medium": 12.94, "low": 1.252}, "2021": {"rural_high": 2.979, "urban_high": 4.775, "medium": 13.244, "low": 1.196}, "2022": {"rural_high": 3.153, "urban_high": 4.866, "medium": 13.682, "low": 1.177}, "2023": {"rural_high": 3.138, "urban_high": 4.916, "medium": 14.26, "low": 1.25}, "2024": {"rural_high": 3.204, "urban_high": 5.024, "medium": 14.752, "low": 1.287}}}, "Mauritania": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.145, "urban_high_2024": 1.339, "medium_2024": 2.934, "low_2024": 0.672, "trajectory": "Losing Ground", "cagr_rural": 0.88, "cagr_urban": 2.57, "trend": {"2013": {"rural_high": 0.19, "urban_high": 1.08, "medium": 2.025, "low": 0.391}, "2014": {"rural_high": 0.156, "urban_high": 1.077, "medium": 2.111, "low": 0.446}, "2015": {"rural_high": 0.149, "urban_high": 1.085, "medium": 2.191, "low": 0.48}, "2016": {"rural_high": 0.155, "urban_high": 1.105, "medium": 2.296, "low": 0.471}, "2017": {"rural_high": 0.144, "urban_high": 1.123, "medium": 2.366, "low": 0.513}, "2018": {"rural_high": 0.139, "urban_high": 1.144, "medium": 2.444, "low": 0.545}, "2019": {"rural_high": 0.138, "urban_high": 1.179, "medium": 2.526, "low": 0.558}, "2020": {"rural_high": 0.149, "urban_high": 1.224, "medium": 2.63, "low": 0.534}, "2021": {"rural_high": 0.156, "urban_high": 1.256, "medium": 2.734, "low": 0.527}, "2022": {"rural_high": 0.148, "urban_high": 1.275, "medium": 2.795, "low": 0.588}, "2023": {"rural_high": 0.144, "urban_high": 1.303, "medium": 2.86, "low": 0.64}, "2024": {"rural_high": 0.145, "urban_high": 1.339, "medium": 2.934, "low": 0.672}}}, "Morocco": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.182, "urban_high_2024": 1.958, "medium_2024": 21.016, "low_2024": 10.773, "trajectory": "Uneven Gains", "cagr_rural": -1.29, "cagr_urban": 0.08, "trend": {"2013": {"rural_high": 0.288, "urban_high": 2.492, "medium": 19.621, "low": 8.276}, "2014": {"rural_high": 0.268, "urban_high": 2.293, "medium": 19.854, "low": 8.558}, "2015": {"rural_high": 0.249, "urban_high": 2.082, "medium": 19.909, "low": 8.951}, "2016": {"rural_high": 0.254, "urban_high": 1.947, "medium": 20.425, "low": 8.966}, "2017": {"rural_high": 0.224, "urban_high": 1.912, "medium": 20.189, "low": 9.473}, "2018": {"rural_high": 0.204, "urban_high": 1.97, "medium": 20.067, "low": 9.851}, "2019": {"rural_high": 0.195, "urban_high": 1.95, "medium": 20.072, "low": 10.135}, "2020": {"rural_high": 0.264, "urban_high": 2.067, "medium": 21.448, "low": 9.287}, "2021": {"rural_high": 0.2, "urban_high": 1.99, "medium": 20.734, "low": 10.162}, "2022": {"rural_high": 0.2, "urban_high": 1.987, "medium": 20.939, "low": 10.283}, "2023": {"rural_high": 0.195, "urban_high": 1.977, "medium": 20.985, "low": 10.545}, "2024": {"rural_high": 0.182, "urban_high": 1.958, "medium": 21.016, "low": 10.773}}}, "Mozambique": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": true, "rural_high_2024": 17.724, "urban_high_2024": 13.619, "medium_2024": 2.531, "low_2024": 0.556, "trajectory": "Losing Ground", "cagr_rural": 2.61, "cagr_urban": 4.52, "trend": {"2013": {"rural_high": 12.353, "urban_high": 8.357, "medium": 3.614, "low": 0.492}, "2014": {"rural_high": 12.487, "urban_high": 8.737, "medium": 3.707, "low": 0.584}, "2015": {"rural_high": 12.81, "urban_high": 9.132, "medium": 3.687, "low": 0.631}, "2016": {"rural_high": 13.385, "urban_high": 9.548, "medium": 3.522, "low": 0.613}, "2017": {"rural_high": 14.114, "urban_high": 9.986, "medium": 3.245, "low": 0.575}, "2018": {"rural_high": 14.809, "urban_high": 10.443, "medium": 2.997, "low": 0.544}, "2019": {"rural_high": 15.579, "urban_high": 10.916, "medium": 2.691, "low": 0.499}, "2020": {"rural_high": 16.596, "urban_high": 11.413, "medium": 2.171, "low": 0.436}, "2021": {"rural_high": 17.026, "urban_high": 11.931, "medium": 2.132, "low": 0.446}, "2022": {"rural_high": 17.326, "urban_high": 12.47, "medium": 2.2, "low": 0.478}, "2023": {"rural_high": 17.46, "urban_high": 13.035, "medium": 2.43, "low": 0.516}, "2024": {"rural_high": 17.724, "urban_high": 13.619, "medium": 2.531, "low": 0.556}}}, "Myanmar": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 1.178, "urban_high_2024": 8.455, "medium_2024": 39.044, "low_2024": 5.079, "trajectory": "Losing Ground", "cagr_rural": 13.75, "cagr_urban": 3.22, "trend": {"2013": {"rural_high": 3.441, "urban_high": 6.893, "medium": 35.543, "low": 3.523}, "2014": {"rural_high": 2.921, "urban_high": 7.149, "medium": 35.605, "low": 4.069}, "2015": {"rural_high": 2.465, "urban_high": 7.015, "medium": 36.147, "low": 4.416}, "2016": {"rural_high": 1.612, "urban_high": 6.914, "medium": 36.892, "low": 5.114}, "2017": {"rural_high": 0.798, "urban_high": 6.887, "medium": 37.555, "low": 5.778}, "2018": {"rural_high": 0.668, "urban_high": 7.146, "medium": 37.066, "low": 6.394}, "2019": {"rural_high": 0.619, "urban_high": 7.216, "medium": 37.139, "low": 6.647}, "2020": {"rural_high": 0.928, "urban_high": 7.428, "medium": 38.183, "low": 5.666}, "2021": {"rural_high": 1.282, "urban_high": 7.776, "medium": 39.056, "low": 4.614}, "2022": {"rural_high": 1.241, "urban_high": 7.989, "medium": 39.091, "low": 4.737}, "2023": {"rural_high": 1.176, "urban_high": 8.205, "medium": 39.056, "low": 4.962}, "2024": {"rural_high": 1.178, "urban_high": 8.455, "medium": 39.044, "low": 5.079}}}, "Namibia": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.241, "urban_high_2024": 0.345, "medium_2024": 1.45, "low_2024": 0.537, "trajectory": "Making Progress", "cagr_rural": -1.72, "cagr_urban": -13.16, "trend": {"2013": {"rural_high": 0.293, "urban_high": 0.562, "medium": 0.861, "low": 0.3}, "2014": {"rural_high": 0.294, "urban_high": 0.582, "medium": 0.853, "low": 0.323}, "2015": {"rural_high": 0.252, "urban_high": 0.578, "medium": 0.85, "low": 0.383}, "2016": {"rural_high": 0.216, "urban_high": 0.598, "medium": 0.833, "low": 0.428}, "2017": {"rural_high": 0.245, "urban_high": 0.628, "medium": 0.864, "low": 0.421}, "2018": {"rural_high": 0.256, "urban_high": 0.664, "medium": 0.876, "low": 0.428}, "2019": {"rural_high": 0.263, "urban_high": 0.699, "medium": 0.897, "low": 0.432}, "2020": {"rural_high": 0.308, "urban_high": 0.353, "medium": 1.318, "low": 0.417}, "2021": {"rural_high": 0.277, "urban_high": 0.341, "medium": 1.361, "low": 0.455}, "2022": {"rural_high": 0.242, "urban_high": 0.323, "medium": 1.395, "low": 0.502}, "2023": {"rural_high": 0.243, "urban_high": 0.335, "medium": 1.428, "low": 0.516}, "2024": {"rural_high": 0.241, "urban_high": 0.345, "medium": 1.45, "low": 0.537}}}, "Niger": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 10.718, "urban_high_2024": 2.423, "medium_2024": 13.447, "low_2024": 0.372, "trajectory": "Uneven Gains", "cagr_rural": 1.12, "cagr_urban": -8.56, "trend": {"2013": {"rural_high": 8.968, "urban_high": 3.002, "medium": 6.375, "low": 0.162}, "2014": {"rural_high": 9.041, "urban_high": 3.117, "medium": 6.871, "low": 0.173}, "2015": {"rural_high": 9.476, "urban_high": 3.24, "medium": 6.989, "low": 0.206}, "2016": {"rural_high": 9.79, "urban_high": 3.37, "medium": 7.217, "low": 0.263}, "2017": {"rural_high": 10.118, "urban_high": 3.505, "medium": 7.444, "low": 0.306}, "2018": {"rural_high": 10.022, "urban_high": 3.644, "medium": 8.036, "low": 0.397}, "2019": {"rural_high": 10.137, "urban_high": 3.79, "medium": 8.496, "low": 0.428}, "2020": {"rural_high": 10.559, "urban_high": 2.3, "medium": 10.393, "low": 0.386}, "2021": {"rural_high": 11.33, "urban_high": 2.446, "medium": 10.337, "low": 0.328}, "2022": {"rural_high": 10.726, "urban_high": 2.372, "medium": 11.816, "low": 0.334}, "2023": {"rural_high": 11.034, "urban_high": 2.453, "medium": 12.262, "low": 0.345}, "2024": {"rural_high": 10.718, "urban_high": 2.423, "medium": 13.447, "low": 0.372}}}, "Nigeria": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": true, "rural_high_2024": 42.633, "urban_high_2024": 81.79, "medium_2024": 101.316, "low_2024": 6.343, "trajectory": "Losing Ground", "cagr_rural": 1.33, "cagr_urban": 2.08, "trend": {"2013": {"rural_high": 38.816, "urban_high": 63.419, "medium": 73.158, "low": 5.391}, "2014": {"rural_high": 38.01, "urban_high": 64.311, "medium": 77.204, "low": 6.054}, "2015": {"rural_high": 38.496, "urban_high": 67.153, "medium": 78.339, "low": 6.342}, "2016": {"rural_high": 39.9, "urban_high": 68.523, "medium": 80.567, "low": 6.094}, "2017": {"rural_high": 39.964, "urban_high": 69.927, "medium": 83.941, "low": 5.995}, "2018": {"rural_high": 39.845, "urban_high": 72.935, "medium": 85.746, "low": 5.91}, "2019": {"rural_high": 39.905, "urban_high": 73.778, "medium": 89.369, "low": 5.87}, "2020": {"rural_high": 42.469, "urban_high": 77.239, "medium": 88.451, "low": 5.338}, "2021": {"rural_high": 42.334, "urban_high": 76.934, "medium": 93.12, "low": 5.625}, "2022": {"rural_high": 42.333, "urban_high": 78.59, "medium": 95.813, "low": 5.872}, "2023": {"rural_high": 42.526, "urban_high": 80.22, "medium": 98.513, "low": 6.069}, "2024": {"rural_high": 42.633, "urban_high": 81.79, "medium": 101.316, "low": 6.343}}}, "Pakistan": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": true, "rural_high_2024": 7.032, "urban_high_2024": 38.97, "medium_2024": 189.831, "low_2024": 13.335, "trajectory": "Uneven Gains", "cagr_rural": -3.56, "cagr_urban": 0.49, "trend": {"2013": {"rural_high": 12.375, "urban_high": 38.416, "medium": 151.125, "low": 7.66}, "2014": {"rural_high": 11.01, "urban_high": 38.04, "medium": 154.782, "low": 8.672}, "2015": {"rural_high": 8.945, "urban_high": 37.298, "medium": 158.148, "low": 10.506}, "2016": {"rural_high": 7.938, "urban_high": 36.996, "medium": 161.176, "low": 11.412}, "2017": {"rural_high": 7.548, "urban_high": 37.008, "medium": 164.88, "low": 11.494}, "2018": {"rural_high": 7.601, "urban_high": 37.308, "medium": 168.615, "low": 11.441}, "2019": {"rural_high": 8.427, "urban_high": 38.023, "medium": 171.694, "low": 10.928}, "2020": {"rural_high": 8.292, "urban_high": 38.311, "medium": 175.337, "low": 11.297}, "2021": {"rural_high": 7.224, "urban_high": 38.056, "medium": 179.906, "low": 12.325}, "2022": {"rural_high": 6.078, "urban_high": 37.808, "medium": 184.134, "low": 13.56}, "2023": {"rural_high": 6.961, "urban_high": 38.586, "medium": 186.753, "low": 13.142}, "2024": {"rural_high": 7.032, "urban_high": 38.97, "medium": 189.831, "low": 13.335}}}, "Papua New Guinea": {"region": "Oceania", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 3.196, "urban_high_2024": 0.616, "medium_2024": 6.177, "low_2024": 0.502, "trajectory": "Losing Ground", "cagr_rural": 1.93, "cagr_urban": 3.1, "trend": {"2013": {"rural_high": 2.902, "urban_high": 0.493, "medium": 4.548, "low": 0.316}, "2014": {"rural_high": 2.754, "urban_high": 0.479, "medium": 4.873, "low": 0.361}, "2015": {"rural_high": 2.72, "urban_high": 0.482, "medium": 5.089, "low": 0.386}, "2016": {"rural_high": 2.718, "urban_high": 0.486, "medium": 5.257, "low": 0.428}, "2017": {"rural_high": 2.762, "urban_high": 0.5, "medium": 5.391, "low": 0.451}, "2018": {"rural_high": 2.876, "urban_high": 0.552, "medium": 5.456, "low": 0.438}, "2019": {"rural_high": 2.905, "urban_high": 0.529, "medium": 5.63, "low": 0.466}, "2020": {"rural_high": 3.089, "urban_high": 0.564, "medium": 5.675, "low": 0.414}, "2021": {"rural_high": 3.232, "urban_high": 0.592, "medium": 5.708, "low": 0.413}, "2022": {"rural_high": 3.198, "urban_high": 0.597, "medium": 5.899, "low": 0.432}, "2023": {"rural_high": 3.226, "urban_high": 0.61, "medium": 6.021, "low": 0.452}, "2024": {"rural_high": 3.196, "urban_high": 0.616, "medium": 6.177, "low": 0.502}}}, "Paraguay": {"region": "Latin America and the Caribbean", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.043, "urban_high_2024": 0.43, "medium_2024": 1.892, "low_2024": 2.458, "trajectory": "Uneven Gains", "cagr_rural": 4.14, "cagr_urban": -1.56, "trend": {"2013": {"rural_high": 0.059, "urban_high": 0.631, "medium": 1.685, "low": 1.881}, "2014": {"rural_high": 0.08, "urban_high": 0.625, "medium": 1.588, "low": 2.049}, "2015": {"rural_high": 0.063, "urban_high": 0.58, "medium": 1.695, "low": 2.026}, "2016": {"rural_high": 0.057, "urban_high": 0.543, "medium": 1.929, "low": 2.005}, "2017": {"rural_high": 0.034, "urban_high": 0.488, "medium": 1.925, "low": 2.142}, "2018": {"rural_high": 0.048, "urban_high": 0.47, "medium": 1.785, "low": 2.225}, "2019": {"rural_high": 0.035, "urban_high": 0.465, "medium": 1.788, "low": 2.259}, "2020": {"rural_high": 0.028, "urban_high": 0.466, "medium": 2.116, "low": 2.275}, "2021": {"rural_high": 0.024, "urban_high": 0.447, "medium": 2.093, "low": 2.384}, "2022": {"rural_high": 0.047, "urban_high": 0.459, "medium": 2.003, "low": 2.385}, "2023": {"rural_high": 0.043, "urban_high": 0.442, "medium": 1.938, "low": 2.413}, "2024": {"rural_high": 0.043, "urban_high": 0.43, "medium": 1.892, "low": 2.458}}}, "Peru": {"region": "Latin America and the Caribbean", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.353, "urban_high_2024": 0.719, "medium_2024": 16.862, "low_2024": 11.307, "trajectory": "Making Progress", "cagr_rural": -2.5, "cagr_urban": -36.36, "trend": {"2013": {"rural_high": 0.68, "urban_high": 6.928, "medium": 8.069, "low": 9.415}, "2014": {"rural_high": 0.612, "urban_high": 6.733, "medium": 8.292, "low": 9.727}, "2015": {"rural_high": 0.603, "urban_high": 6.802, "medium": 8.475, "low": 9.661}, "2016": {"rural_high": 0.594, "urban_high": 6.881, "medium": 8.094, "low": 9.923}, "2017": {"rural_high": 0.588, "urban_high": 6.977, "medium": 8.379, "low": 10.157}, "2018": {"rural_high": 0.473, "urban_high": 6.898, "medium": 8.306, "low": 10.5}, "2019": {"rural_high": 0.4, "urban_high": 6.889, "medium": 8.186, "low": 11.05}, "2020": {"rural_high": 0.789, "urban_high": 1.474, "medium": 18.104, "low": 8.739}, "2021": {"rural_high": 0.378, "urban_high": 0.76, "medium": 17.106, "low": 10.526}, "2022": {"rural_high": 0.364, "urban_high": 0.732, "medium": 16.828, "low": 10.852}, "2023": {"rural_high": 0.366, "urban_high": 0.74, "medium": 16.993, "low": 10.993}, "2024": {"rural_high": 0.353, "urban_high": 0.719, "medium": 16.862, "low": 11.307}}}, "Philippines": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 3.449, "urban_high_2024": 16.484, "medium_2024": 74.538, "low_2024": 17.168, "trajectory": "Losing Ground", "cagr_rural": 0.01, "cagr_urban": 0.34, "trend": {"2013": {"rural_high": 7.345, "urban_high": 19.022, "medium": 59.61, "low": 12.481}, "2014": {"rural_high": 6.51, "urban_high": 18.319, "medium": 61.999, "low": 13.205}, "2015": {"rural_high": 5.7, "urban_high": 17.823, "medium": 64.012, "low": 13.953}, "2016": {"rural_high": 4.979, "urban_high": 17.262, "medium": 66.184, "low": 14.454}, "2017": {"rural_high": 4.25, "urban_high": 16.828, "medium": 68.173, "low": 14.985}, "2018": {"rural_high": 3.588, "urban_high": 16.231, "medium": 70.252, "low": 15.518}, "2019": {"rural_high": 3.448, "urban_high": 16.206, "medium": 71.086, "low": 16.077}, "2020": {"rural_high": 5.08, "urban_high": 17.404, "medium": 73.005, "low": 13.504}, "2021": {"rural_high": 4.879, "urban_high": 17.278, "medium": 73.89, "low": 13.882}, "2022": {"rural_high": 4.254, "urban_high": 16.99, "medium": 74.004, "low": 15.143}, "2023": {"rural_high": 3.838, "urban_high": 16.728, "medium": 74.341, "low": 16.104}, "2024": {"rural_high": 3.449, "urban_high": 16.484, "medium": 74.538, "low": 17.168}}}, "Senegal": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.992, "urban_high_2024": 2.514, "medium_2024": 12.755, "low_2024": 1.82, "trajectory": "Uneven Gains", "cagr_rural": 0.51, "cagr_urban": -0.69, "trend": {"2013": {"rural_high": 3.611, "urban_high": 4.42, "medium": 5.134, "low": 0.494}, "2014": {"rural_high": 3.111, "urban_high": 4.193, "medium": 6.102, "low": 0.653}, "2015": {"rural_high": 2.587, "urban_high": 3.848, "medium": 7.218, "low": 0.795}, "2016": {"rural_high": 2.07, "urban_high": 3.514, "medium": 8.232, "low": 1.031}, "2017": {"rural_high": 1.408, "urban_high": 2.996, "medium": 9.545, "low": 1.25}, "2018": {"rural_high": 1.061, "urban_high": 2.718, "medium": 10.314, "low": 1.441}, "2019": {"rural_high": 0.967, "urban_high": 2.603, "medium": 10.864, "low": 1.524}, "2020": {"rural_high": 1.088, "urban_high": 2.746, "medium": 11.104, "low": 1.489}, "2021": {"rural_high": 1.078, "urban_high": 2.688, "medium": 11.54, "low": 1.539}, "2022": {"rural_high": 1.1, "urban_high": 2.632, "medium": 11.966, "low": 1.58}, "2023": {"rural_high": 1.07, "urban_high": 2.59, "medium": 12.385, "low": 1.641}, "2024": {"rural_high": 0.992, "urban_high": 2.514, "medium": 12.755, "low": 1.82}}}, "Somalia": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.0, "urban_high_2024": 0.58, "medium_2024": 0.0, "low_2024": 0.0, "trajectory": "Uneven Gains", "cagr_rural": 0, "cagr_urban": -2.52, "trend": {"2013": {"rural_high": 0.0, "urban_high": 0.523, "medium": 0.0, "low": 0.0}, "2014": {"rural_high": 0.0, "urban_high": 0.544, "medium": 0.0, "low": 0.0}, "2015": {"rural_high": 0.0, "urban_high": 0.564, "medium": 0.0, "low": 0.0}, "2016": {"rural_high": 0.0, "urban_high": 0.587, "medium": 0.0, "low": 0.0}, "2017": {"rural_high": 0.0, "urban_high": 0.611, "medium": 0.0, "low": 0.0}, "2018": {"rural_high": 0.0, "urban_high": 0.633, "medium": 0.0, "low": 0.0}, "2019": {"rural_high": 0.0, "urban_high": 0.659, "medium": 0.0, "low": 0.0}, "2020": {"rural_high": 0.0, "urban_high": 0.684, "medium": 0.0, "low": 0.0}, "2021": {"rural_high": 0.0, "urban_high": 0.711, "medium": 0.0, "low": 0.0}, "2022": {"rural_high": 0.0, "urban_high": 0.589, "medium": 0.0, "low": 0.0}, "2023": {"rural_high": 0.0, "urban_high": 0.585, "medium": 0.0, "low": 0.0}, "2024": {"rural_high": 0.0, "urban_high": 0.58, "medium": 0.0, "low": 0.0}}}, "South Sudan": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 7.272, "urban_high_2024": 2.352, "medium_2024": 2.227, "low_2024": 0.082, "trajectory": "Losing Ground", "cagr_rural": 3.07, "cagr_urban": 2.54, "trend": {"2013": {"rural_high": 5.334, "urban_high": 2.056, "medium": 3.523, "low": 0.217}, "2014": {"rural_high": 5.542, "urban_high": 2.093, "medium": 3.376, "low": 0.192}, "2015": {"rural_high": 5.598, "urban_high": 2.094, "medium": 3.208, "low": 0.176}, "2016": {"rural_high": 6.1, "urban_high": 2.068, "medium": 2.521, "low": 0.122}, "2017": {"rural_high": 6.004, "urban_high": 1.985, "medium": 2.161, "low": 0.096}, "2018": {"rural_high": 6.033, "urban_high": 1.986, "medium": 2.006, "low": 0.085}, "2019": {"rural_high": 6.252, "urban_high": 2.074, "medium": 2.002, "low": 0.084}, "2020": {"rural_high": 6.633, "urban_high": 2.027, "medium": 1.957, "low": 0.072}, "2021": {"rural_high": 6.663, "urban_high": 2.072, "medium": 2.045, "low": 0.075}, "2022": {"rural_high": 6.794, "urban_high": 2.153, "medium": 1.991, "low": 0.074}, "2023": {"rural_high": 7.043, "urban_high": 2.252, "medium": 2.1, "low": 0.078}, "2024": {"rural_high": 7.272, "urban_high": 2.352, "medium": 2.227, "low": 0.082}}}, "Sri Lanka": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.285, "urban_high_2024": 0.061, "medium_2024": 16.642, "low_2024": 3.991, "trajectory": "Losing Ground", "cagr_rural": 9.81, "cagr_urban": 10.98, "trend": {"2013": {"rural_high": 0.434, "urban_high": 0.108, "medium": 15.893, "low": 3.17}, "2014": {"rural_high": 0.328, "urban_high": 0.078, "medium": 15.764, "low": 3.503}, "2015": {"rural_high": 0.286, "urban_high": 0.061, "medium": 15.725, "low": 3.698}, "2016": {"rural_high": 0.237, "urban_high": 0.059, "medium": 15.613, "low": 3.973}, "2017": {"rural_high": 0.212, "urban_high": 0.042, "medium": 15.586, "low": 4.221}, "2018": {"rural_high": 0.168, "urban_high": 0.034, "medium": 15.424, "low": 4.554}, "2019": {"rural_high": 0.179, "urban_high": 0.036, "medium": 15.625, "low": 4.543}, "2020": {"rural_high": 0.212, "urban_high": 0.044, "medium": 16.068, "low": 4.316}, "2021": {"rural_high": 0.196, "urban_high": 0.041, "medium": 16.076, "low": 4.484}, "2022": {"rural_high": 0.28, "urban_high": 0.059, "medium": 16.639, "low": 4.016}, "2023": {"rural_high": 0.295, "urban_high": 0.062, "medium": 16.665, "low": 3.876}, "2024": {"rural_high": 0.285, "urban_high": 0.061, "medium": 16.642, "low": 3.991}}}, "Sudan": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": true, "rural_high_2024": 14.924, "urban_high_2024": 17.595, "medium_2024": 17.083, "low_2024": 0.656, "trajectory": "Losing Ground", "cagr_rural": 16.38, "cagr_urban": 7.69, "trend": {"2013": {"rural_high": 4.661, "urban_high": 10.075, "medium": 21.072, "low": 1.724}, "2014": {"rural_high": 4.428, "urban_high": 10.003, "medium": 22.364, "low": 1.755}, "2015": {"rural_high": 4.69, "urban_high": 10.129, "medium": 23.187, "low": 1.739}, "2016": {"rural_high": 4.791, "urban_high": 10.202, "medium": 24.177, "low": 1.8}, "2017": {"rural_high": 5.176, "urban_high": 10.69, "medium": 24.791, "low": 1.771}, "2018": {"rural_high": 6.067, "urban_high": 11.424, "medium": 24.884, "low": 1.574}, "2019": {"rural_high": 6.991, "urban_high": 12.15, "medium": 24.693, "low": 1.446}, "2020": {"rural_high": 7.991, "urban_high": 12.915, "medium": 24.343, "low": 1.288}, "2021": {"rural_high": 8.825, "urban_high": 13.6, "medium": 24.204, "low": 1.19}, "2022": {"rural_high": 9.704, "urban_high": 14.391, "medium": 23.914, "low": 1.127}, "2023": {"rural_high": 13.71, "urban_high": 16.618, "medium": 18.781, "low": 0.723}, "2024": {"rural_high": 14.924, "urban_high": 17.595, "medium": 17.083, "low": 0.656}}}, "Thailand": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.004, "urban_high_2024": 1.458, "medium_2024": 18.817, "low_2024": 30.157, "trajectory": "Making Progress", "cagr_rural": -39.19, "cagr_urban": -5.14, "trend": {"2013": {"rural_high": 0.028, "urban_high": 2.381, "medium": 26.677, "low": 25.489}, "2014": {"rural_high": 0.041, "urban_high": 2.323, "medium": 26.24, "low": 26.318}, "2015": {"rural_high": 0.021, "urban_high": 2.255, "medium": 23.487, "low": 28.659}, "2016": {"rural_high": 0.016, "urban_high": 2.155, "medium": 24.599, "low": 27.703}, "2017": {"rural_high": 0.017, "urban_high": 2.069, "medium": 23.871, "low": 28.041}, "2018": {"rural_high": 0.014, "urban_high": 1.975, "medium": 24.817, "low": 27.565}, "2019": {"rural_high": 0.042, "urban_high": 1.899, "medium": 23.172, "low": 29.386}, "2020": {"rural_high": 0.02, "urban_high": 1.787, "medium": 22.426, "low": 29.437}, "2021": {"rural_high": 0.006, "urban_high": 1.701, "medium": 22.073, "low": 29.429}, "2022": {"rural_high": 0.006, "urban_high": 1.602, "medium": 20.244, "low": 29.87}, "2023": {"rural_high": 0.006, "urban_high": 1.53, "medium": 19.52, "low": 29.992}, "2024": {"rural_high": 0.004, "urban_high": 1.458, "medium": 18.817, "low": 30.157}}}, "Timor-Leste": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.469, "urban_high_2024": 0.291, "medium_2024": 0.63, "low_2024": 0.01, "trajectory": "Losing Ground", "cagr_rural": 21.72, "cagr_urban": 12.43, "trend": {"2013": {"rural_high": 0.236, "urban_high": 0.192, "medium": 0.713, "low": 0.015}, "2014": {"rural_high": 0.226, "urban_high": 0.187, "medium": 0.75, "low": 0.017}, "2015": {"rural_high": 0.223, "urban_high": 0.183, "medium": 0.779, "low": 0.018}, "2016": {"rural_high": 0.22, "urban_high": 0.178, "medium": 0.81, "low": 0.019}, "2017": {"rural_high": 0.249, "urban_high": 0.186, "medium": 0.798, "low": 0.017}, "2018": {"rural_high": 0.266, "urban_high": 0.192, "medium": 0.8, "low": 0.016}, "2019": {"rural_high": 0.176, "urban_high": 0.162, "medium": 0.933, "low": 0.028}, "2020": {"rural_high": 0.082, "urban_high": 0.13, "medium": 1.058, "low": 0.048}, "2021": {"rural_high": 0.073, "urban_high": 0.127, "medium": 1.088, "low": 0.056}, "2022": {"rural_high": 0.145, "urban_high": 0.156, "medium": 1.03, "low": 0.034}, "2023": {"rural_high": 0.481, "urban_high": 0.292, "medium": 0.601, "low": 0.01}, "2024": {"rural_high": 0.469, "urban_high": 0.291, "medium": 0.63, "low": 0.01}}}, "Togo": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 1.512, "urban_high_2024": 2.016, "medium_2024": 5.389, "low_2024": 0.506, "trajectory": "Uneven Gains", "cagr_rural": -1.37, "cagr_urban": 0.07, "trend": {"2013": {"rural_high": 2.928, "urban_high": 2.656, "medium": 1.53, "low": 0.145}, "2014": {"rural_high": 2.928, "urban_high": 2.652, "medium": 1.724, "low": 0.145}, "2015": {"rural_high": 2.931, "urban_high": 2.702, "medium": 1.865, "low": 0.145}, "2016": {"rural_high": 2.562, "urban_high": 2.515, "medium": 2.535, "low": 0.21}, "2017": {"rural_high": 2.253, "urban_high": 2.332, "medium": 3.101, "low": 0.314}, "2018": {"rural_high": 1.801, "urban_high": 2.161, "medium": 3.721, "low": 0.474}, "2019": {"rural_high": 1.62, "urban_high": 2.009, "medium": 4.191, "low": 0.527}, "2020": {"rural_high": 1.666, "urban_high": 2.047, "medium": 4.392, "low": 0.466}, "2021": {"rural_high": 1.625, "urban_high": 2.023, "medium": 4.704, "low": 0.436}, "2022": {"rural_high": 1.598, "urban_high": 2.033, "medium": 4.948, "low": 0.426}, "2023": {"rural_high": 1.561, "urban_high": 2.028, "medium": 5.15, "low": 0.477}, "2024": {"rural_high": 1.512, "urban_high": 2.016, "medium": 5.389, "low": 0.506}}}, "Uganda": {"region": "Africa", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 15.094, "urban_high_2024": 10.728, "medium_2024": 22.094, "low_2024": 1.692, "trajectory": "Losing Ground", "cagr_rural": 0.53, "cagr_urban": 3.42, "trend": {"2013": {"rural_high": 11.324, "urban_high": 6.899, "medium": 15.43, "low": 1.387}, "2014": {"rural_high": 11.893, "urban_high": 7.388, "medium": 15.37, "low": 1.399}, "2015": {"rural_high": 12.61, "urban_high": 7.826, "medium": 15.324, "low": 1.411}, "2016": {"rural_high": 13.566, "urban_high": 8.218, "medium": 15.237, "low": 1.404}, "2017": {"rural_high": 14.16, "urban_high": 8.521, "medium": 15.738, "low": 1.382}, "2018": {"rural_high": 14.31, "urban_high": 8.617, "medium": 16.895, "low": 1.391}, "2019": {"rural_high": 14.701, "urban_high": 9.066, "medium": 17.552, "low": 1.342}, "2020": {"rural_high": 15.222, "urban_high": 9.551, "medium": 18.064, "low": 1.3}, "2021": {"rural_high": 15.498, "urban_high": 9.892, "medium": 18.822, "low": 1.367}, "2022": {"rural_high": 15.378, "urban_high": 10.21, "medium": 19.871, "low": 1.499}, "2023": {"rural_high": 15.397, "urban_high": 10.516, "medium": 20.812, "low": 1.561}, "2024": {"rural_high": 15.094, "urban_high": 10.728, "medium": 22.094, "low": 1.692}}}, "Vietnam": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 0.591, "urban_high_2024": 1.578, "medium_2024": 35.371, "low_2024": 43.284, "trajectory": "Uneven Gains", "cagr_rural": 0.47, "cagr_urban": -1.58, "trend": {"2013": {"rural_high": 1.246, "urban_high": 3.21, "medium": 52.487, "low": 26.781}, "2014": {"rural_high": 1.311, "urban_high": 2.827, "medium": 51.266, "low": 28.903}, "2015": {"rural_high": 1.068, "urban_high": 2.263, "medium": 48.263, "low": 31.857}, "2016": {"rural_high": 0.879, "urban_high": 1.692, "medium": 45.608, "low": 34.318}, "2017": {"rural_high": 0.877, "urban_high": 1.748, "medium": 42.726, "low": 36.398}, "2018": {"rural_high": 0.857, "urban_high": 1.792, "medium": 39.482, "low": 38.954}, "2019": {"rural_high": 0.577, "urban_high": 1.709, "medium": 35.662, "low": 40.554}, "2020": {"rural_high": 0.459, "urban_high": 1.713, "medium": 35.757, "low": 40.336}, "2021": {"rural_high": 0.599, "urban_high": 1.72, "medium": 38.28, "low": 40.385}, "2022": {"rural_high": 0.675, "urban_high": 1.711, "medium": 38.406, "low": 41.61}, "2023": {"rural_high": 0.63, "urban_high": 1.642, "medium": 37.337, "low": 42.28}, "2024": {"rural_high": 0.591, "urban_high": 1.578, "medium": 35.371, "low": 43.284}}}, "Yemen, Rep.": {"region": "Asia and the Middle East", "group": "HIGH IMPACT ", "critical9": false, "rural_high_2024": 15.472, "urban_high_2024": 8.587, "medium_2024": 15.964, "low_2024": 0.456, "trajectory": "Uneven Gains", "cagr_rural": 6.44, "cagr_urban": -2.61, "trend": {"2013": {"rural_high": 3.924, "urban_high": 4.907, "medium": 18.46, "low": 1.756}, "2014": {"rural_high": 4.452, "urban_high": 5.321, "medium": 18.52, "low": 1.69}, "2015": {"rural_high": 7.693, "urban_high": 6.999, "medium": 15.364, "low": 0.979}, "2016": {"rural_high": 9.466, "urban_high": 8.014, "medium": 13.775, "low": 0.738}, "2017": {"rural_high": 10.528, "urban_high": 8.807, "medium": 13.023, "low": 0.619}, "2018": {"rural_high": 10.975, "urban_high": 9.62, "medium": 12.755, "low": 0.618}, "2019": {"rural_high": 11.322, "urban_high": 9.801, "medium": 13.236, "low": 0.63}, "2020": {"rural_high": 12.979, "urban_high": 6.723, "medium": 15.809, "low": 0.523}, "2021": {"rural_high": 13.641, "urban_high": 7.226, "medium": 15.674, "low": 0.5}, "2022": {"rural_high": 14.016, "urban_high": 7.466, "medium": 16.135, "low": 0.503}, "2023": {"rural_high": 14.69, "urban_high": 7.987, "medium": 16.109, "low": 0.5}, "2024": {"rural_high": 15.472, "urban_high": 8.587, "medium": 15.964, "low": 0.456}}}, "Afghanistan": {"region": "Asia and the Middle East", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.0, "urban_high_2024": 1.851, "medium_2024": 0.0, "low_2024": 0.0, "trajectory": "Uneven Gains", "cagr_rural": 0, "cagr_urban": 5.52, "trend": {"2013": {"rural_high": 0.0, "urban_high": 1.103, "medium": 0.0, "low": 0.0}, "2014": {"rural_high": 0.0, "urban_high": 1.122, "medium": 0.0, "low": 0.0}, "2015": {"rural_high": 0.0, "urban_high": 1.228, "medium": 0.0, "low": 0.0}, "2016": {"rural_high": 0.0, "urban_high": 1.24, "medium": 0.0, "low": 0.0}, "2017": {"rural_high": 0.0, "urban_high": 1.298, "medium": 0.0, "low": 0.0}, "2018": {"rural_high": 0.0, "urban_high": 1.366, "medium": 0.0, "low": 0.0}, "2019": {"rural_high": 0.0, "urban_high": 1.415, "medium": 0.0, "low": 0.0}, "2020": {"rural_high": 0.0, "urban_high": 1.472, "medium": 0.0, "low": 0.0}, "2021": {"rural_high": 0.0, "urban_high": 1.539, "medium": 0.0, "low": 0.0}, "2022": {"rural_high": 0.0, "urban_high": 1.643, "medium": 0.0, "low": 0.0}, "2023": {"rural_high": 0.0, "urban_high": 1.739, "medium": 0.0, "low": 0.0}, "2024": {"rural_high": 0.0, "urban_high": 1.851, "medium": 0.0, "low": 0.0}}}, "Belize": {"region": "Latin America and the Caribbean", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.005, "urban_high_2024": 0.006, "medium_2024": 0.023, "low_2024": 0.006, "trajectory": "Uneven Gains", "cagr_rural": 0.0, "cagr_urban": 1.47, "trend": {"2013": {"rural_high": 0.004, "urban_high": 0.005, "medium": 0.019, "low": 0.004}, "2014": {"rural_high": 0.005, "urban_high": 0.005, "medium": 0.019, "low": 0.004}, "2015": {"rural_high": 0.005, "urban_high": 0.005, "medium": 0.019, "low": 0.005}, "2016": {"rural_high": 0.005, "urban_high": 0.005, "medium": 0.02, "low": 0.004}, "2017": {"rural_high": 0.005, "urban_high": 0.005, "medium": 0.02, "low": 0.004}, "2018": {"rural_high": 0.005, "urban_high": 0.005, "medium": 0.021, "low": 0.004}, "2019": {"rural_high": 0.005, "urban_high": 0.005, "medium": 0.021, "low": 0.005}, "2020": {"rural_high": 0.006, "urban_high": 0.006, "medium": 0.021, "low": 0.004}, "2021": {"rural_high": 0.005, "urban_high": 0.006, "medium": 0.022, "low": 0.005}, "2022": {"rural_high": 0.005, "urban_high": 0.006, "medium": 0.023, "low": 0.006}, "2023": {"rural_high": 0.005, "urban_high": 0.006, "medium": 0.023, "low": 0.006}, "2024": {"rural_high": 0.005, "urban_high": 0.006, "medium": 0.023, "low": 0.006}}}, "Bhutan": {"region": "Asia and the Middle East", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.0, "urban_high_2024": 0.0, "medium_2024": 0.012, "low_2024": 0.028, "trajectory": "Making Progress", "cagr_rural": -100.0, "cagr_urban": -100.0, "trend": {"2013": {"rural_high": 0.001, "urban_high": 0.0, "medium": 0.03, "low": 0.012}, "2014": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.03, "low": 0.012}, "2015": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.029, "low": 0.013}, "2016": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.029, "low": 0.013}, "2017": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.029, "low": 0.014}, "2018": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.021, "low": 0.019}, "2019": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.022, "low": 0.02}, "2020": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.022, "low": 0.022}, "2021": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.029, "low": 0.02}, "2022": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.014, "low": 0.028}, "2023": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.013, "low": 0.028}, "2024": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.012, "low": 0.028}}}, "Central African Republic": {"region": "Africa", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.33, "urban_high_2024": 0.266, "medium_2024": 0.132, "low_2024": 0.009, "trajectory": "Losing Ground", "cagr_rural": 5.97, "cagr_urban": 7.2, "trend": {"2013": {"rural_high": 0.243, "urban_high": 0.199, "medium": 0.047, "low": 0.008}, "2014": {"rural_high": 0.243, "urban_high": 0.201, "medium": 0.048, "low": 0.008}, "2015": {"rural_high": 0.243, "urban_high": 0.206, "medium": 0.052, "low": 0.008}, "2016": {"rural_high": 0.243, "urban_high": 0.212, "medium": 0.056, "low": 0.008}, "2017": {"rural_high": 0.251, "urban_high": 0.218, "medium": 0.054, "low": 0.007}, "2018": {"rural_high": 0.247, "urban_high": 0.184, "medium": 0.103, "low": 0.008}, "2019": {"rural_high": 0.247, "urban_high": 0.188, "medium": 0.113, "low": 0.008}, "2020": {"rural_high": 0.261, "urban_high": 0.199, "medium": 0.113, "low": 0.008}, "2021": {"rural_high": 0.28, "urban_high": 0.216, "medium": 0.122, "low": 0.008}, "2022": {"rural_high": 0.301, "urban_high": 0.236, "medium": 0.126, "low": 0.008}, "2023": {"rural_high": 0.315, "urban_high": 0.25, "medium": 0.129, "low": 0.008}, "2024": {"rural_high": 0.33, "urban_high": 0.266, "medium": 0.132, "low": 0.009}}}, "Colombia": {"region": "Latin America and the Caribbean", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.431, "urban_high_2024": 1.856, "medium_2024": 7.505, "low_2024": 5.077, "trajectory": "Losing Ground", "cagr_rural": 2.67, "cagr_urban": 1.21, "trend": {"2013": {"rural_high": 0.432, "urban_high": 1.988, "medium": 6.998, "low": 4.591}, "2014": {"rural_high": 0.385, "urban_high": 1.862, "medium": 6.911, "low": 4.732}, "2015": {"rural_high": 0.35, "urban_high": 1.755, "medium": 7.033, "low": 4.938}, "2016": {"rural_high": 0.35, "urban_high": 1.709, "medium": 7.194, "low": 5.102}, "2017": {"rural_high": 0.31, "urban_high": 1.614, "medium": 7.368, "low": 5.195}, "2018": {"rural_high": 0.322, "urban_high": 1.621, "medium": 7.398, "low": 5.21}, "2019": {"rural_high": 0.378, "urban_high": 1.748, "medium": 7.405, "low": 5.158}, "2020": {"rural_high": 0.67, "urban_high": 2.346, "medium": 7.963, "low": 4.477}, "2021": {"rural_high": 0.526, "urban_high": 2.061, "medium": 7.72, "low": 4.642}, "2022": {"rural_high": 0.435, "urban_high": 1.873, "medium": 7.403, "low": 4.942}, "2023": {"rural_high": 0.434, "urban_high": 1.868, "medium": 7.465, "low": 5.003}, "2024": {"rural_high": 0.431, "urban_high": 1.856, "medium": 7.505, "low": 5.077}}}, "Ecuador": {"region": "Latin America and the Caribbean", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.132, "urban_high_2024": 0.158, "medium_2024": 2.986, "low_2024": 2.099, "trajectory": "Losing Ground", "cagr_rural": 2.22, "cagr_urban": 2.65, "trend": {"2013": {"rural_high": 0.101, "urban_high": 0.118, "medium": 2.663, "low": 1.755}, "2014": {"rural_high": 0.083, "urban_high": 0.095, "medium": 2.582, "low": 1.941}, "2015": {"rural_high": 0.109, "urban_high": 0.125, "medium": 2.614, "low": 1.877}, "2016": {"rural_high": 0.115, "urban_high": 0.133, "medium": 2.616, "low": 1.962}, "2017": {"rural_high": 0.104, "urban_high": 0.119, "medium": 2.543, "low": 2.064}, "2018": {"rural_high": 0.109, "urban_high": 0.128, "medium": 2.633, "low": 2.05}, "2019": {"rural_high": 0.119, "urban_high": 0.139, "medium": 2.754, "low": 1.98}, "2020": {"rural_high": 0.218, "urban_high": 0.258, "medium": 3.064, "low": 1.814}, "2021": {"rural_high": 0.121, "urban_high": 0.142, "medium": 3.002, "low": 2.006}, "2022": {"rural_high": 0.108, "urban_high": 0.128, "medium": 2.906, "low": 2.091}, "2023": {"rural_high": 0.131, "urban_high": 0.156, "medium": 2.93, "low": 2.068}, "2024": {"rural_high": 0.132, "urban_high": 0.158, "medium": 2.986, "low": 2.099}}}, "El Salvador": {"region": "Latin America and the Caribbean", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.004, "urban_high_2024": 0.027, "medium_2024": 0.092, "low_2024": 0.1, "trajectory": "Losing Ground", "cagr_rural": 16.83, "cagr_urban": 1.14, "trend": {"2013": {"rural_high": 0.005, "urban_high": 0.039, "medium": 0.124, "low": 0.064}, "2014": {"rural_high": 0.004, "urban_high": 0.035, "medium": 0.128, "low": 0.065}, "2015": {"rural_high": 0.003, "urban_high": 0.03, "medium": 0.131, "low": 0.072}, "2016": {"rural_high": 0.003, "urban_high": 0.027, "medium": 0.129, "low": 0.076}, "2017": {"rural_high": 0.003, "urban_high": 0.026, "medium": 0.127, "low": 0.081}, "2018": {"rural_high": 0.002, "urban_high": 0.026, "medium": 0.118, "low": 0.085}, "2019": {"rural_high": 0.002, "urban_high": 0.026, "medium": 0.108, "low": 0.091}, "2020": {"rural_high": 0.004, "urban_high": 0.029, "medium": 0.115, "low": 0.086}, "2021": {"rural_high": 0.004, "urban_high": 0.03, "medium": 0.096, "low": 0.097}, "2022": {"rural_high": 0.004, "urban_high": 0.028, "medium": 0.097, "low": 0.096}, "2023": {"rural_high": 0.004, "urban_high": 0.028, "medium": 0.095, "low": 0.098}, "2024": {"rural_high": 0.004, "urban_high": 0.027, "medium": 0.092, "low": 0.1}}}, "Ethiopia": {"region": "Africa", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 2.105, "urban_high_2024": 2.42, "medium_2024": 11.778, "low_2024": 0.976, "trajectory": "Uneven Gains", "cagr_rural": -3.84, "cagr_urban": 2.47, "trend": {"2013": {"rural_high": 3.261, "urban_high": 1.981, "medium": 7.562, "low": 0.319}, "2014": {"rural_high": 3.253, "urban_high": 2.002, "medium": 7.844, "low": 0.359}, "2015": {"rural_high": 3.252, "urban_high": 2.112, "medium": 8.032, "low": 0.405}, "2016": {"rural_high": 3.099, "urban_high": 2.132, "medium": 8.45, "low": 0.461}, "2017": {"rural_high": 2.873, "urban_high": 2.039, "medium": 9.063, "low": 0.525}, "2018": {"rural_high": 2.709, "urban_high": 2.098, "medium": 9.483, "low": 0.578}, "2019": {"rural_high": 2.56, "urban_high": 2.143, "medium": 9.908, "low": 0.636}, "2020": {"rural_high": 2.51, "urban_high": 2.213, "medium": 10.228, "low": 0.685}, "2021": {"rural_high": 2.463, "urban_high": 2.265, "medium": 10.574, "low": 0.73}, "2022": {"rural_high": 2.34, "urban_high": 2.311, "medium": 10.995, "low": 0.791}, "2023": {"rural_high": 2.234, "urban_high": 2.367, "medium": 11.367, "low": 0.884}, "2024": {"rural_high": 2.105, "urban_high": 2.42, "medium": 11.778, "low": 0.976}}}, "Georgia": {"region": "Asia and the Middle East", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.019, "urban_high_2024": 0.046, "medium_2024": 0.609, "low_2024": 0.276, "trajectory": "Making Progress", "cagr_rural": -7.3, "cagr_urban": -6.01, "trend": {"2013": {"rural_high": 0.051, "urban_high": 0.09, "medium": 0.734, "low": 0.192}, "2014": {"rural_high": 0.038, "urban_high": 0.077, "medium": 0.732, "low": 0.2}, "2015": {"rural_high": 0.03, "urban_high": 0.068, "medium": 0.74, "low": 0.209}, "2016": {"rural_high": 0.03, "urban_high": 0.067, "medium": 0.741, "low": 0.202}, "2017": {"rural_high": 0.037, "urban_high": 0.072, "medium": 0.701, "low": 0.213}, "2018": {"rural_high": 0.033, "urban_high": 0.067, "medium": 0.709, "low": 0.215}, "2019": {"rural_high": 0.028, "urban_high": 0.062, "medium": 0.715, "low": 0.21}, "2020": {"rural_high": 0.033, "urban_high": 0.064, "medium": 0.748, "low": 0.168}, "2021": {"rural_high": 0.031, "urban_high": 0.061, "medium": 0.729, "low": 0.182}, "2022": {"rural_high": 0.024, "urban_high": 0.052, "medium": 0.661, "low": 0.244}, "2023": {"rural_high": 0.022, "urban_high": 0.049, "medium": 0.634, "low": 0.262}, "2024": {"rural_high": 0.019, "urban_high": 0.046, "medium": 0.609, "low": 0.276}}}, "Guatemala": {"region": "Latin America and the Caribbean", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.227, "urban_high_2024": 1.121, "medium_2024": 2.944, "low_2024": 1.545, "trajectory": "Uneven Gains", "cagr_rural": -3.0, "cagr_urban": 1.9, "trend": {"2013": {"rural_high": 0.314, "urban_high": 0.967, "medium": 2.34, "low": 0.947}, "2014": {"rural_high": 0.307, "urban_high": 0.98, "medium": 2.452, "low": 0.977}, "2015": {"rural_high": 0.289, "urban_high": 0.957, "medium": 2.541, "low": 1.027}, "2016": {"rural_high": 0.287, "urban_high": 0.959, "medium": 2.616, "low": 1.06}, "2017": {"rural_high": 0.279, "urban_high": 0.978, "medium": 2.671, "low": 1.103}, "2018": {"rural_high": 0.273, "urban_high": 1.0, "medium": 2.717, "low": 1.144}, "2019": {"rural_high": 0.264, "urban_high": 1.021, "medium": 2.737, "low": 1.213}, "2020": {"rural_high": 0.284, "urban_high": 1.066, "medium": 2.852, "low": 1.203}, "2021": {"rural_high": 0.25, "urban_high": 1.063, "medium": 2.82, "low": 1.343}, "2022": {"rural_high": 0.235, "urban_high": 1.076, "medium": 2.842, "low": 1.427}, "2023": {"rural_high": 0.231, "urban_high": 1.098, "medium": 2.897, "low": 1.487}, "2024": {"rural_high": 0.227, "urban_high": 1.121, "medium": 2.944, "low": 1.545}}}, "Honduras": {"region": "Latin America and the Caribbean", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.251, "urban_high_2024": 0.263, "medium_2024": 2.067, "low_2024": 0.989, "trajectory": "Making Progress", "cagr_rural": -1.58, "cagr_urban": -18.77, "trend": {"2013": {"rural_high": 0.295, "urban_high": 0.674, "medium": 1.399, "low": 0.669}, "2014": {"rural_high": 0.272, "urban_high": 0.657, "medium": 1.481, "low": 0.672}, "2015": {"rural_high": 0.268, "urban_high": 0.67, "medium": 1.488, "low": 0.714}, "2016": {"rural_high": 0.303, "urban_high": 0.717, "medium": 1.349, "low": 0.765}, "2017": {"rural_high": 0.29, "urban_high": 0.732, "medium": 1.428, "low": 0.771}, "2018": {"rural_high": 0.301, "urban_high": 0.753, "medium": 1.414, "low": 0.795}, "2019": {"rural_high": 0.272, "urban_high": 0.744, "medium": 1.429, "low": 0.882}, "2020": {"rural_high": 0.33, "urban_high": 0.32, "medium": 2.035, "low": 0.788}, "2021": {"rural_high": 0.28, "urban_high": 0.278, "medium": 1.987, "low": 0.902}, "2022": {"rural_high": 0.263, "urban_high": 0.265, "medium": 2.017, "low": 0.935}, "2023": {"rural_high": 0.26, "urban_high": 0.267, "medium": 2.037, "low": 0.96}, "2024": {"rural_high": 0.251, "urban_high": 0.263, "medium": 2.067, "low": 0.989}}}, "Jordan": {"region": "Asia and the Middle East", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.002, "urban_high_2024": 0.882, "medium_2024": 3.043, "low_2024": 4.549, "trajectory": "Uneven Gains", "cagr_rural": 3.96, "cagr_urban": -2.84, "trend": {"2013": {"rural_high": 0.001, "urban_high": 1.012, "medium": 0.909, "low": 3.062}, "2014": {"rural_high": 0.001, "urban_high": 1.02, "medium": 1.316, "low": 3.063}, "2015": {"rural_high": 0.001, "urban_high": 1.012, "medium": 1.665, "low": 3.09}, "2016": {"rural_high": 0.001, "urban_high": 0.993, "medium": 1.849, "low": 3.164}, "2017": {"rural_high": 0.001, "urban_high": 0.984, "medium": 1.988, "low": 3.308}, "2018": {"rural_high": 0.001, "urban_high": 0.972, "medium": 2.151, "low": 3.452}, "2019": {"rural_high": 0.001, "urban_high": 1.019, "medium": 2.274, "low": 3.588}, "2020": {"rural_high": 0.003, "urban_high": 0.941, "medium": 2.645, "low": 3.675}, "2021": {"rural_high": 0.003, "urban_high": 0.927, "medium": 2.756, "low": 3.867}, "2022": {"rural_high": 0.002, "urban_high": 0.909, "medium": 2.864, "low": 4.092}, "2023": {"rural_high": 0.002, "urban_high": 0.896, "medium": 2.934, "low": 4.329}, "2024": {"rural_high": 0.002, "urban_high": 0.882, "medium": 3.043, "low": 4.549}}}, "Kenya": {"region": "Africa", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 9.062, "urban_high_2024": 7.168, "medium_2024": 18.93, "low_2024": 1.406, "trajectory": "Losing Ground", "cagr_rural": 2.8, "cagr_urban": 4.32, "trend": {"2013": {"rural_high": 6.474, "urban_high": 4.68, "medium": 12.542, "low": 1.298}, "2014": {"rural_high": 6.489, "urban_high": 4.922, "medium": 13.062, "low": 1.348}, "2015": {"rural_high": 6.502, "urban_high": 4.881, "medium": 13.88, "low": 1.404}, "2016": {"rural_high": 6.673, "urban_high": 4.948, "medium": 14.517, "low": 1.406}, "2017": {"rural_high": 7.179, "urban_high": 5.316, "medium": 14.719, "low": 1.312}, "2018": {"rural_high": 7.489, "urban_high": 5.542, "medium": 15.271, "low": 1.249}, "2019": {"rural_high": 7.894, "urban_high": 5.802, "medium": 15.776, "low": 1.163}, "2020": {"rural_high": 8.83, "urban_high": 6.257, "medium": 15.767, "low": 0.938}, "2021": {"rural_high": 9.38, "urban_high": 6.583, "medium": 15.735, "low": 1.148}, "2022": {"rural_high": 9.3, "urban_high": 6.779, "medium": 16.716, "low": 1.243}, "2023": {"rural_high": 9.147, "urban_high": 6.954, "medium": 17.856, "low": 1.288}, "2024": {"rural_high": 9.062, "urban_high": 7.168, "medium": 18.93, "low": 1.406}}}, "Lebanon": {"region": "Asia and the Middle East", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.0, "urban_high_2024": 0.0, "medium_2024": 0.14, "low_2024": 0.59, "trajectory": "Uneven Gains", "cagr_rural": 0, "cagr_urban": -100.0, "trend": {"2013": {"rural_high": 0.0, "urban_high": 0.07, "medium": 0.0, "low": 0.284}, "2014": {"rural_high": 0.0, "urban_high": 0.031, "medium": 0.044, "low": 0.333}, "2015": {"rural_high": 0.0, "urban_high": 0.033, "medium": 0.046, "low": 0.348}, "2016": {"rural_high": 0.0, "urban_high": 0.034, "medium": 0.043, "low": 0.342}, "2017": {"rural_high": 0.0, "urban_high": 0.036, "medium": 0.036, "low": 0.356}, "2018": {"rural_high": 0.0, "urban_high": 0.038, "medium": 0.038, "low": 0.376}, "2019": {"rural_high": 0.0, "urban_high": 0.04, "medium": 0.04, "low": 0.395}, "2020": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.114, "low": 0.477}, "2021": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.132, "low": 0.546}, "2022": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.136, "low": 0.558}, "2023": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.137, "low": 0.576}, "2024": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.14, "low": 0.59}}}, "Mexico": {"region": "Latin America and the Caribbean", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.384, "urban_high_2024": 9.728, "medium_2024": 26.951, "low_2024": 35.066, "trajectory": "Making Progress", "cagr_rural": -7.96, "cagr_urban": -0.29, "trend": {"2013": {"rural_high": 1.326, "urban_high": 11.807, "medium": 34.372, "low": 20.819}, "2014": {"rural_high": 1.324, "urban_high": 11.638, "medium": 36.774, "low": 20.438}, "2015": {"rural_high": 0.964, "urban_high": 10.833, "medium": 34.098, "low": 23.348}, "2016": {"rural_high": 0.784, "urban_high": 10.171, "medium": 32.962, "low": 25.097}, "2017": {"rural_high": 0.711, "urban_high": 9.988, "medium": 32.798, "low": 26.256}, "2018": {"rural_high": 0.647, "urban_high": 9.85, "medium": 32.706, "low": 27.306}, "2019": {"rural_high": 0.581, "urban_high": 9.87, "medium": 30.822, "low": 28.893}, "2020": {"rural_high": 0.75, "urban_high": 10.388, "medium": 34.345, "low": 28.034}, "2021": {"rural_high": 0.546, "urban_high": 9.987, "medium": 30.852, "low": 30.846}, "2022": {"rural_high": 0.42, "urban_high": 9.772, "medium": 27.965, "low": 33.151}, "2023": {"rural_high": 0.395, "urban_high": 9.736, "medium": 27.31, "low": 34.145}, "2024": {"rural_high": 0.384, "urban_high": 9.728, "medium": 26.951, "low": 35.066}}}, "Nepal": {"region": "Asia and the Middle East", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.076, "urban_high_2024": 1.907, "medium_2024": 20.91, "low_2024": 7.755, "trajectory": "Uneven Gains", "cagr_rural": -18.44, "cagr_urban": 0.51, "trend": {"2013": {"rural_high": 0.988, "urban_high": 1.915, "medium": 21.742, "low": 2.902}, "2014": {"rural_high": 0.757, "urban_high": 1.845, "medium": 21.819, "low": 3.376}, "2015": {"rural_high": 0.704, "urban_high": 1.879, "medium": 21.958, "low": 3.578}, "2016": {"rural_high": 0.587, "urban_high": 1.871, "medium": 21.939, "low": 4.002}, "2017": {"rural_high": 0.402, "urban_high": 1.823, "medium": 21.475, "low": 4.877}, "2018": {"rural_high": 0.248, "urban_high": 1.781, "medium": 20.913, "low": 5.776}, "2019": {"rural_high": 0.211, "urban_high": 1.859, "medium": 20.969, "low": 6.008}, "2020": {"rural_high": 0.233, "urban_high": 1.926, "medium": 21.364, "low": 5.932}, "2021": {"rural_high": 0.168, "urban_high": 1.937, "medium": 20.998, "low": 6.611}, "2022": {"rural_high": 0.112, "urban_high": 1.88, "medium": 20.789, "low": 7.191}, "2023": {"rural_high": 0.101, "urban_high": 1.895, "medium": 21.004, "low": 7.328}, "2024": {"rural_high": 0.076, "urban_high": 1.907, "medium": 20.91, "low": 7.755}}}, "Sierra Leone": {"region": "Africa", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.501, "urban_high_2024": 0.922, "medium_2024": 1.489, "low_2024": 0.1, "trajectory": "Losing Ground", "cagr_rural": 1.66, "cagr_urban": 1.27, "trend": {"2013": {"rural_high": 0.389, "urban_high": 0.772, "medium": 1.09, "low": 0.094}, "2014": {"rural_high": 0.37, "urban_high": 0.766, "medium": 1.16, "low": 0.102}, "2015": {"rural_high": 0.549, "urban_high": 0.872, "medium": 0.972, "low": 0.063}, "2016": {"rural_high": 0.493, "urban_high": 0.849, "medium": 1.088, "low": 0.078}, "2017": {"rural_high": 0.482, "urban_high": 0.85, "medium": 1.151, "low": 0.082}, "2018": {"rural_high": 0.472, "urban_high": 0.842, "medium": 1.225, "low": 0.084}, "2019": {"rural_high": 0.461, "urban_high": 0.865, "medium": 1.268, "low": 0.088}, "2020": {"rural_high": 0.502, "urban_high": 0.878, "medium": 1.281, "low": 0.086}, "2021": {"rural_high": 0.498, "urban_high": 0.882, "medium": 1.341, "low": 0.09}, "2022": {"rural_high": 0.497, "urban_high": 0.901, "medium": 1.383, "low": 0.095}, "2023": {"rural_high": 0.5, "urban_high": 0.912, "medium": 1.433, "low": 0.097}, "2024": {"rural_high": 0.501, "urban_high": 0.922, "medium": 1.489, "low": 0.1}}}, "Syrian Arab Republic": {"region": "Asia and the Middle East", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 1.65, "urban_high_2024": 1.589, "medium_2024": 6.376, "low_2024": 0.004, "trajectory": "Losing Ground", "cagr_rural": 39.74, "cagr_urban": 42.64, "trend": {"2013": {"rural_high": 0.772, "urban_high": 0.625, "medium": 9.608, "low": 1.344}, "2014": {"rural_high": 0.896, "urban_high": 0.701, "medium": 9.388, "low": 1.058}, "2015": {"rural_high": 0.798, "urban_high": 0.639, "medium": 9.308, "low": 1.028}, "2016": {"rural_high": 0.911, "urban_high": 0.744, "medium": 9.248, "low": 0.724}, "2017": {"rural_high": 0.606, "urban_high": 0.505, "medium": 9.213, "low": 1.012}, "2018": {"rural_high": 0.397, "urban_high": 0.338, "medium": 9.104, "low": 1.214}, "2019": {"rural_high": 0.31, "urban_high": 0.269, "medium": 8.959, "low": 1.249}, "2020": {"rural_high": 0.648, "urban_high": 0.574, "medium": 8.925, "low": 0.45}, "2021": {"rural_high": 1.267, "urban_high": 1.147, "medium": 7.811, "low": 0.131}, "2022": {"rural_high": 1.438, "urban_high": 1.33, "medium": 7.301, "low": 0.039}, "2023": {"rural_high": 1.549, "urban_high": 1.462, "medium": 6.821, "low": 0.028}, "2024": {"rural_high": 1.65, "urban_high": 1.589, "medium": 6.376, "low": 0.004}}}, "T\u00fcrkiye": {"region": "Asia and the Middle East", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.014, "urban_high_2024": 0.025, "medium_2024": 1.292, "low_2024": 3.312, "trajectory": "Making Progress", "cagr_rural": -2.82, "cagr_urban": -50.22, "trend": {"2013": {"rural_high": 0.013, "urban_high": 0.778, "medium": 1.936, "low": 3.692}, "2014": {"rural_high": 0.009, "urban_high": 0.757, "medium": 1.93, "low": 3.726}, "2015": {"rural_high": 0.009, "urban_high": 0.758, "medium": 2.09, "low": 3.78}, "2016": {"rural_high": 0.009, "urban_high": 0.757, "medium": 1.908, "low": 3.732}, "2017": {"rural_high": 0.006, "urban_high": 0.77, "medium": 1.739, "low": 3.874}, "2018": {"rural_high": 0.002, "urban_high": 0.782, "medium": 1.712, "low": 4.031}, "2019": {"rural_high": 0.016, "urban_high": 0.824, "medium": 1.827, "low": 3.891}, "2020": {"rural_high": 0.022, "urban_high": 0.036, "medium": 2.189, "low": 3.741}, "2021": {"rural_high": 0.021, "urban_high": 0.035, "medium": 2.006, "low": 3.577}, "2022": {"rural_high": 0.015, "urban_high": 0.026, "medium": 1.411, "low": 3.338}, "2023": {"rural_high": 0.015, "urban_high": 0.025, "medium": 1.357, "low": 3.328}, "2024": {"rural_high": 0.014, "urban_high": 0.025, "medium": 1.292, "low": 3.312}}}, "Turkmenistan": {"region": "Asia and the Middle East", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.053, "urban_high_2024": 0.109, "medium_2024": 1.348, "low_2024": 0.411, "trajectory": "Losing Ground", "cagr_rural": 2.02, "cagr_urban": 2.45, "trend": {"2013": {"rural_high": 0.091, "urban_high": 0.121, "medium": 1.117, "low": 0.237}, "2014": {"rural_high": 0.078, "urban_high": 0.112, "medium": 1.127, "low": 0.268}, "2015": {"rural_high": 0.071, "urban_high": 0.109, "medium": 1.143, "low": 0.28}, "2016": {"rural_high": 0.064, "urban_high": 0.104, "medium": 1.152, "low": 0.303}, "2017": {"rural_high": 0.056, "urban_high": 0.099, "medium": 1.164, "low": 0.325}, "2018": {"rural_high": 0.052, "urban_high": 0.098, "medium": 1.174, "low": 0.34}, "2019": {"rural_high": 0.048, "urban_high": 0.096, "medium": 1.183, "low": 0.359}, "2020": {"rural_high": 0.055, "urban_high": 0.104, "medium": 1.249, "low": 0.361}, "2021": {"rural_high": 0.053, "urban_high": 0.104, "medium": 1.268, "low": 0.375}, "2022": {"rural_high": 0.054, "urban_high": 0.106, "medium": 1.296, "low": 0.384}, "2023": {"rural_high": 0.054, "urban_high": 0.108, "medium": 1.32, "low": 0.397}, "2024": {"rural_high": 0.053, "urban_high": 0.109, "medium": 1.348, "low": 0.411}}}, "Uzbekistan": {"region": "Asia and the Middle East", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.037, "urban_high_2024": 0.028, "medium_2024": 0.892, "low_2024": 1.388, "trajectory": "Uneven Gains", "cagr_rural": 0.0, "cagr_urban": 0.14, "trend": {"2013": {"rural_high": 0.056, "urban_high": 0.044, "medium": 1.603, "low": 0.489}, "2014": {"rural_high": 0.05, "urban_high": 0.039, "medium": 1.534, "low": 0.591}, "2015": {"rural_high": 0.045, "urban_high": 0.035, "medium": 1.435, "low": 0.715}, "2016": {"rural_high": 0.041, "urban_high": 0.032, "medium": 1.36, "low": 0.818}, "2017": {"rural_high": 0.04, "urban_high": 0.031, "medium": 1.308, "low": 0.894}, "2018": {"rural_high": 0.038, "urban_high": 0.029, "medium": 1.222, "low": 0.989}, "2019": {"rural_high": 0.037, "urban_high": 0.028, "medium": 1.134, "low": 1.085}, "2020": {"rural_high": 0.039, "urban_high": 0.03, "medium": 1.142, "low": 1.121}, "2021": {"rural_high": 0.038, "urban_high": 0.029, "medium": 1.02, "low": 1.224}, "2022": {"rural_high": 0.038, "urban_high": 0.029, "medium": 0.942, "low": 1.295}, "2023": {"rural_high": 0.038, "urban_high": 0.029, "medium": 0.921, "low": 1.341}, "2024": {"rural_high": 0.037, "urban_high": 0.028, "medium": 0.892, "low": 1.388}}}, "Venezuela, RB": {"region": "Latin America and the Caribbean", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.0, "urban_high_2024": 0.0, "medium_2024": 0.0, "low_2024": 0.0, "trajectory": "Uneven Gains", "cagr_rural": 0, "cagr_urban": 0, "trend": {"2013": {"rural_high": 0.085, "urban_high": 0.208, "medium": 1.918, "low": 1.262}, "2014": {"rural_high": 0.095, "urban_high": 0.232, "medium": 2.05, "low": 1.231}, "2015": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.0, "low": 0.0}, "2016": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.0, "low": 0.0}, "2017": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.0, "low": 0.0}, "2018": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.0, "low": 0.0}, "2019": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.0, "low": 0.0}, "2020": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.0, "low": 0.0}, "2021": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.0, "low": 0.0}, "2022": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.0, "low": 0.0}, "2023": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.0, "low": 0.0}, "2024": {"rural_high": 0.0, "urban_high": 0.0, "medium": 0.0, "low": 0.0}}}, "West Bank and Gaza": {"region": "Asia and the Middle East", "group": "NON HIGH-IMPACT", "critical9": false, "rural_high_2024": 0.002, "urban_high_2024": 0.089, "medium_2024": 0.282, "low_2024": 0.336, "trajectory": "Losing Ground", "cagr_rural": 1.76, "cagr_urban": 1.36, "trend": {"2013": {"rural_high": 0.001, "urban_high": 0.088, "medium": 0.203, "low": 0.303}, "2014": {"rural_high": 0.002, "urban_high": 0.082, "medium": 0.212, "low": 0.283}, "2015": {"rural_high": 0.002, "urban_high": 0.078, "medium": 0.215, "low": 0.277}, "2016": {"rural_high": 0.001, "urban_high": 0.074, "medium": 0.206, "low": 0.28}, "2017": {"rural_high": 0.002, "urban_high": 0.076, "medium": 0.216, "low": 0.283}, "2018": {"rural_high": 0.002, "urban_high": 0.079, "medium": 0.229, "low": 0.292}, "2019": {"rural_high": 0.002, "urban_high": 0.083, "medium": 0.237, "low": 0.302}, "2020": {"rural_high": 0.003, "urban_high": 0.084, "medium": 0.289, "low": 0.281}, "2021": {"rural_high": 0.003, "urban_high": 0.086, "medium": 0.296, "low": 0.305}, "2022": {"rural_high": 0.001, "urban_high": 0.084, "medium": 0.241, "low": 0.333}, "2023": {"rural_high": 0.001, "urban_high": 0.086, "medium": 0.245, "low": 0.34}, "2024": {"rural_high": 0.002, "urban_high": 0.089, "medium": 0.282, "low": 0.336}}}}, "gender": {"Algeria": {"rural_f": 0.0, "rural_m": 0.0, "urban_f": 1.081, "urban_m": 1.081}, "Angola": {"rural_f": 3.257, "rural_m": 3.239, "urban_f": 12.272, "urban_m": 11.146}, "Argentina": {"rural_f": 0.054, "rural_m": 0.05, "urban_f": 0.155, "urban_m": 0.144}, "Bangladesh": {"rural_f": 2.236, "rural_m": 2.05, "urban_f": 13.932, "urban_m": 13.827}, "Benin": {"rural_f": 0.53, "rural_m": 0.493, "urban_f": 2.518, "urban_m": 2.278}, "Bolivia": {"rural_f": 0.053, "rural_m": 0.053, "urban_f": 0.077, "urban_m": 0.076}, "Brazil": {"rural_f": 1.167, "rural_m": 1.091, "urban_f": 2.841, "urban_m": 2.654}, "Burkina Faso": {"rural_f": 2.244, "rural_m": 2.105, "urban_f": 1.984, "urban_m": 1.805}, "Cambodia": {"rural_f": 0.0, "rural_m": 0.0, "urban_f": 0.62, "urban_m": 0.602}, "Cameroon": {"rural_f": 1.854, "rural_m": 1.693, "urban_f": 3.843, "urban_m": 3.401}, "Chad": {"rural_f": 2.607, "rural_m": 2.439, "urban_f": 2.396, "urban_m": 2.459}, "China": {"rural_f": 0.0, "rural_m": 0.0, "urban_f": 34.842, "urban_m": 34.842}, "Congo, Rep.": {"rural_f": 0.675, "rural_m": 0.672, "urban_f": 1.772, "urban_m": 1.7}, "Cote d'Ivoire": {"rural_f": 0.732, "rural_m": 0.734, "urban_f": 3.889, "urban_m": 3.776}, "Djibouti": {"rural_f": 0.035, "rural_m": 0.038, "urban_f": 0.1, "urban_m": 0.104}, "Dominican Republic": {"rural_f": 0.009, "rural_m": 0.01, "urban_f": 0.418, "urban_m": 0.409}, "Egypt, Arab Rep.": {"rural_f": 0.387, "rural_m": 0.391, "urban_f": 0.234, "urban_m": 0.236}, "Eritrea": {"rural_f": 0.0, "rural_m": 0.0, "urban_f": 0.061, "urban_m": 0.055}, "Eswatini": {"rural_f": 0.162, "rural_m": 0.144, "urban_f": 0.063, "urban_m": 0.056}, "Gambia, The": {"rural_f": 0.107, "rural_m": 0.102, "urban_f": 0.409, "urban_m": 0.379}, "Ghana": {"rural_f": 2.024, "rural_m": 2.249, "urban_f": 4.822, "urban_m": 4.451}, "Guinea": {"rural_f": 0.577, "rural_m": 0.528, "urban_f": 1.396, "urban_m": 1.299}, "Guinea-Bissau": {"rural_f": 0.178, "rural_m": 0.167, "urban_f": 0.364, "urban_m": 0.352}, "India": {"rural_f": 50.523, "rural_m": 42.502, "urban_f": 113.893, "urban_m": 111.869}, "Indonesia": {"rural_f": 1.295, "rural_m": 1.161, "urban_f": 11.312, "urban_m": 11.487}, "Iran, Islamic Rep.": {"rural_f": 0.099, "rural_m": 0.058, "urban_f": 0.173, "urban_m": 0.102}, "Iraq": {"rural_f": 0.013, "rural_m": 0.013, "urban_f": 6.061, "urban_m": 6.174}, "Lao PDR": {"rural_f": 0.15, "rural_m": 0.152, "urban_f": 0.263, "urban_m": 0.267}, "Liberia": {"rural_f": 0.453, "rural_m": 0.458, "urban_f": 1.261, "urban_m": 1.197}, "Malawi": {"rural_f": 6.827, "rural_m": 6.539, "urban_f": 2.024, "urban_m": 2.004}, "Mali": {"rural_f": 1.597, "rural_m": 1.607, "urban_f": 2.609, "urban_m": 2.416}, "Mauritania": {"rural_f": 0.071, "rural_m": 0.074, "urban_f": 0.668, "urban_m": 0.671}, "Morocco": {"rural_f": 0.091, "rural_m": 0.091, "urban_f": 0.993, "urban_m": 0.964}, "Mozambique": {"rural_f": 9.228, "rural_m": 8.497, "urban_f": 6.983, "urban_m": 6.636}, "Myanmar": {"rural_f": 0.603, "rural_m": 0.575, "urban_f": 4.526, "urban_m": 3.929}, "Namibia": {"rural_f": 0.124, "rural_m": 0.117, "urban_f": 0.177, "urban_m": 0.168}, "Niger": {"rural_f": 5.297, "rural_m": 5.421, "urban_f": 1.203, "urban_m": 1.219}, "Nigeria": {"rural_f": 20.991, "rural_m": 21.642, "urban_f": 42.113, "urban_m": 39.677}, "Pakistan": {"rural_f": 3.779, "rural_m": 3.253, "urban_f": 19.706, "urban_m": 19.265}, "Papua New Guinea": {"rural_f": 1.591, "rural_m": 1.605, "urban_f": 0.307, "urban_m": 0.309}, "Paraguay": {"rural_f": 0.022, "rural_m": 0.021, "urban_f": 0.22, "urban_m": 0.21}, "Peru": {"rural_f": 0.173, "rural_m": 0.18, "urban_f": 0.354, "urban_m": 0.365}, "Philippines": {"rural_f": 1.711, "rural_m": 1.738, "urban_f": 7.982, "urban_m": 8.502}, "Senegal": {"rural_f": 0.502, "rural_m": 0.491, "urban_f": 1.313, "urban_m": 1.201}, "Somalia": {"rural_f": 0.0, "rural_m": 0.0, "urban_f": 0.29, "urban_m": 0.29}, "South Sudan": {"rural_f": 3.571, "rural_m": 3.701, "urban_f": 1.16, "urban_m": 1.191}, "Sri Lanka": {"rural_f": 0.142, "rural_m": 0.144, "urban_f": 0.03, "urban_m": 0.031}, "Sudan": {"rural_f": 7.382, "rural_m": 7.542, "urban_f": 8.685, "urban_m": 8.91}, "Thailand": {"rural_f": 0.002, "rural_m": 0.002, "urban_f": 0.756, "urban_m": 0.703}, "Timor-Leste": {"rural_f": 0.232, "rural_m": 0.237, "urban_f": 0.148, "urban_m": 0.143}, "Togo": {"rural_f": 0.777, "rural_m": 0.734, "urban_f": 1.058, "urban_m": 0.958}, "Uganda": {"rural_f": 7.64, "rural_m": 7.455, "urban_f": 5.517, "urban_m": 5.211}, "Vietnam": {"rural_f": 0.306, "rural_m": 0.285, "urban_f": 0.803, "urban_m": 0.775}, "Yemen, Rep.": {"rural_f": 7.654, "rural_m": 7.818, "urban_f": 4.248, "urban_m": 4.338}, "Afghanistan": {"rural_f": 0.0, "rural_m": 0.0, "urban_f": 0.934, "urban_m": 0.917}, "Belize": {"rural_f": 0.003, "rural_m": 0.002, "urban_f": 0.003, "urban_m": 0.003}, "Bhutan": {"rural_f": 0.0, "rural_m": 0.0, "urban_f": 0.0, "urban_m": 0.0}, "Central African Republic": {"rural_f": 0.168, "rural_m": 0.163, "urban_f": 0.135, "urban_m": 0.131}, "Colombia": {"rural_f": 0.237, "rural_m": 0.194, "urban_f": 1.009, "urban_m": 0.847}, "Ecuador": {"rural_f": 0.067, "rural_m": 0.065, "urban_f": 0.08, "urban_m": 0.078}, "El Salvador": {"rural_f": 0.002, "rural_m": 0.002, "urban_f": 0.014, "urban_m": 0.013}, "Ethiopia": {"rural_f": 1.087, "rural_m": 1.018, "urban_f": 1.311, "urban_m": 1.11}, "Georgia": {"rural_f": 0.01, "rural_m": 0.01, "urban_f": 0.024, "urban_m": 0.022}, "Guatemala": {"rural_f": 0.115, "rural_m": 0.111, "urban_f": 0.609, "urban_m": 0.512}, "Honduras": {"rural_f": 0.123, "rural_m": 0.128, "urban_f": 0.129, "urban_m": 0.134}, "Jordan": {"rural_f": 0.001, "rural_m": 0.001, "urban_f": 0.447, "urban_m": 0.435}, "Kenya": {"rural_f": 4.722, "rural_m": 4.34, "urban_f": 3.796, "urban_m": 3.372}, "Lebanon": {"rural_f": 0.0, "rural_m": 0.0, "urban_f": 0.0, "urban_m": 0.0}, "Mexico": {"rural_f": 0.19, "rural_m": 0.194, "urban_f": 4.988, "urban_m": 4.74}, "Nepal": {"rural_f": 0.041, "rural_m": 0.035, "urban_f": 1.106, "urban_m": 0.801}, "Sierra Leone": {"rural_f": 0.25, "rural_m": 0.251, "urban_f": 0.481, "urban_m": 0.441}, "Syrian Arab Republic": {"rural_f": 0.847, "rural_m": 0.803, "urban_f": 0.815, "urban_m": 0.773}, "T\u00fcrkiye": {"rural_f": 0.004, "rural_m": 0.011, "urban_f": 0.007, "urban_m": 0.019}, "Turkmenistan": {"rural_f": 0.037, "rural_m": 0.016, "urban_f": 0.063, "urban_m": 0.045}, "Uzbekistan": {"rural_f": 0.018, "rural_m": 0.019, "urban_f": 0.014, "urban_m": 0.015}, "Venezuela, RB": {"rural_f": 0.0, "rural_m": 0.0, "urban_f": 0.0, "urban_m": 0.0}, "West Bank and Gaza": {"rural_f": 0.001, "rural_m": 0.001, "urban_f": 0.044, "urban_m": 0.044}}};
+
+// ─── CHART INSTANCES ─────────────────────────────────────────────────────────
+const charts = {};
+let activeRegion = 'all';
+let countryDonutCharts = {};
+let countryTrendChart = null;
+let countryGenderChart = null;
+
+const C = {
+  red: '#DD2E2B', orange: '#FF6A13', yellow: '#FFB800',
+  green: '#9BBE1D', navy: '#065A89', dark: '#022437',
+  light: '#F0F7FA', teal: '#00B8C4'
+};
+
+// ─── VIEW SWITCHING ──────────────────────────────────────────────────────────
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (id === 'country' && !charts.countryTrend) initCountryView();
+  if (id === 'critical9' && !charts.scatter) initC9View();
+  if (id === 'gender' && !charts.genderShare) initGenderView();
+  if (id === 'regional' && !charts.regionHigh) initRegionalView();
+}
+
+// ─── HELPER ──────────────────────────────────────────────────────────────────
+const fmt = (v) => v >= 1000 ? (v/1000).toFixed(1)+'B' : v.toFixed(0)+'M';
+const fmtM = (v) => v >= 1000 ? (v/1000).toFixed(2)+'B' : v.toFixed(1)+'M';
+const fmtS = (v) => v.toFixed(0)+'M';
+
+function defaultChartOpts() {
+  return {
+    responsive: true, maintainAspectRatio: true,
+    plugins: { legend: { display: false }, tooltip: { backgroundColor:'#fff', titleColor: C.dark, bodyColor:'#444', borderColor:'#ddd', borderWidth:1, padding:10, titleFont:{family:'Barlow Condensed',size:13,weight:'bold'}, bodyFont:{family:'Mulish',size:11} } },
+    scales: { x: { ticks:{font:{family:'Mulish',size:10},color:'#666'}, grid:{color:'#eee'} }, y: { ticks:{font:{family:'Mulish',size:10},color:'#666'}, grid:{color:'#eee'} } }
+  };
+}
+
+// ─── VIEW 1: GLOBAL ──────────────────────────────────────────────────────────
+function initGlobalView() {
+  // Trend chart
+  const tCtx = document.getElementById('trendChart').getContext('2d');
+  charts.trend = new Chart(tCtx, {
+    type: 'line',
+    data: {
+      labels: DATA.trend_years,
+      datasets: [
+        { label:'Rural Poor at High Risk', data: DATA.trend_rural, borderColor: C.red, backgroundColor:'rgba(221,46,43,0.08)', borderWidth:2.5, tension:0.3, fill:true, pointRadius:3, pointBackgroundColor:C.red },
+        { label:'Urban Poor at High Risk', data: DATA.trend_urban, borderColor: C.orange, backgroundColor:'rgba(255,106,19,0.08)', borderWidth:2.5, tension:0.3, fill:true, pointRadius:3, pointBackgroundColor:C.orange },
+      ]
+    },
+    options: { ...defaultChartOpts(), plugins: { legend:{display:true, position:'top', labels:{font:{family:'Mulish',size:11},color:C.dark,boxWidth:12,usePointStyle:true}}, tooltip:{...defaultChartOpts().plugins.tooltip} }, scales:{ x:{ticks:{font:{family:'Mulish',size:10},color:'#666'},grid:{color:'#eee'}}, y:{ticks:{font:{family:'Mulish',size:10},color:'#666', callback:v=>v+'M'},grid:{color:'#eee'}} } }
+  });
+
+  // Global donut
+  const dCtx = document.getElementById('donutGlobal').getContext('2d');
+  charts.donutGlobal = new Chart(dCtx, {
+    type:'doughnut',
+    data:{
+      labels:['Rural High Risk','Urban High Risk','Medium Risk','Low Risk'],
+      datasets:[{ data:[DATA.kpis.rural_high, DATA.kpis.urban_high, DATA.kpis.medium, 1197], backgroundColor:[C.red,C.orange,C.yellow,C.green], borderWidth:0, hoverOffset:6 }]
+    },
+    options:{ responsive:true, maintainAspectRatio:true, cutout:'65%', plugins:{legend:{display:true,position:'right',labels:{font:{family:'Mulish',size:10},color:C.dark,boxWidth:10,usePointStyle:true,padding:8}},tooltip:{...defaultChartOpts().plugins.tooltip,callbacks:{label:ctx=>` ${fmtS(ctx.raw)}` }}} }
+  });
+
+  // Regional bar
+  const regions = Object.keys(DATA.regional);
+  const regVals = Object.values(DATA.regional);
+  const rCtx = document.getElementById('regionalBar').getContext('2d');
+  charts.regionalBar = new Chart(rCtx, {
+    type:'bar',
+    data:{
+      labels:['Asia & Mid. East','Africa','Latin Am. & Carib.','Oceania'],
+      datasets:[{ label:'High Risk 2024 (M)', data: regVals, backgroundColor:[C.red,C.orange,C.navy,C.teal], borderRadius:3, barThickness:40 }]
+    },
+    options:{ ...defaultChartOpts(), plugins:{legend:{display:false},tooltip:{...defaultChartOpts().plugins.tooltip,callbacks:{label:ctx=>`${ctx.raw.toFixed(1)}M at high risk`}}}, scales:{ x:{ticks:{font:{family:'Mulish',size:10},color:'#666'},grid:{display:false}}, y:{ticks:{font:{family:'Mulish',size:10},color:'#666',callback:v=>v+'M'},grid:{color:'#eee'}} } }
+  });
+
+  // Proj bar
+  const pCtx = document.getElementById('projBar').getContext('2d');
+  charts.projBar = new Chart(pCtx, {
+    type:'bar',
+    data:{
+      labels:['Rural Poor High Risk','Urban Poor High Risk','Medium Risk'],
+      datasets:[
+        {label:'2024',data:[309,696,2828],backgroundColor:C.navy+'99',borderRadius:2,barThickness:28},
+        {label:'2030 Projection',data:[304,744,2851],backgroundColor:[C.green,C.red,C.orange],borderRadius:2,barThickness:28}
+      ]
+    },
+    options:{ ...defaultChartOpts(), plugins:{legend:{display:true,position:'top',labels:{font:{family:'Mulish',size:10},color:C.dark,boxWidth:10,usePointStyle:true}},tooltip:{...defaultChartOpts().plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw}M`}}}, scales:{ x:{ticks:{font:{family:'Mulish',size:10},color:'#666'},grid:{display:false}}, y:{ticks:{font:{family:'Mulish',size:10},color:'#666',callback:v=>v+'M'},grid:{color:'#eee'}} } }
+  });
+}
+
+// ─── VIEW 2: REGIONAL ────────────────────────────────────────────────────────
+function initRegionalView() {
+  buildRegionCharts('all');
+}
+
+function filterRegion(region, btn) {
+  activeRegion = region;
+  document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (charts.regionHigh) { charts.regionHigh.destroy(); charts.regionHigh = null; }
+  if (charts.regionMed) { charts.regionMed.destroy(); charts.regionMed = null; }
+  if (charts.countryRank) { charts.countryRank.destroy(); charts.countryRank = null; }
+  buildRegionCharts(region);
+}
+
+function buildRegionCharts(region) {
+  const countries = Object.entries(DATA.profiles)
+    .filter(([c,p]) => region === 'all' || p.region === region);
+
+  // Aggregate by region for the region bars
+  const regionData = {};
+  const regionMedData = {};
+  Object.entries(DATA.profiles).forEach(([c,p]) => {
+    const r = p.region;
+    if (!regionData[r]) regionData[r] = {rural:0,urban:0};
+    if (!regionMedData[r]) regionMedData[r] = 0;
+    regionData[r].rural += p.rural_high_2024;
+    regionData[r].urban += p.urban_high_2024;
+    regionMedData[r] += p.medium_2024;
+  });
+
+  const regionLabels = ['Africa','Asia and the Middle East','Latin America and the Caribbean','Oceania'];
+  const shortLabels = ['Africa','Asia & Mid. East','Latin America','Oceania'];
+
+  // High risk stacked
+  const rhCtx = document.getElementById('regionHighBar').getContext('2d');
+  charts.regionHigh = new Chart(rhCtx, {
+    type:'bar',
+    data:{
+      labels: shortLabels,
+      datasets:[
+        {label:'Rural Poor',data:regionLabels.map(r=>(regionData[r]?.rural||0).toFixed(1)),backgroundColor:C.red,borderRadius:3,stack:'s'},
+        {label:'Urban Poor',data:regionLabels.map(r=>(regionData[r]?.urban||0).toFixed(1)),backgroundColor:C.orange,borderRadius:3,stack:'s'}
+      ]
+    },
+    options:{ ...defaultChartOpts(), plugins:{legend:{display:true,position:'top',labels:{font:{family:'Mulish',size:10},color:C.dark,boxWidth:10,usePointStyle:true}},tooltip:{...defaultChartOpts().plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw}M`}}}, scales:{x:{stacked:true,ticks:{font:{family:'Mulish',size:10},color:'#666'},grid:{display:false}},y:{stacked:true,ticks:{font:{family:'Mulish',size:10},color:'#666',callback:v=>v+'M'},grid:{color:'#eee'}}} }
+  });
+
+  // Medium risk bar
+  const rmCtx = document.getElementById('regionMedBar').getContext('2d');
+  charts.regionMed = new Chart(rmCtx, {
+    type:'bar',
+    data:{
+      labels:shortLabels,
+      datasets:[{label:'Medium Risk',data:regionLabels.map(r=>(regionMedData[r]||0).toFixed(1)),backgroundColor:C.yellow,borderRadius:3,barThickness:44}]
+    },
+    options:{ ...defaultChartOpts(), plugins:{legend:{display:false},tooltip:{...defaultChartOpts().plugins.tooltip,callbacks:{label:ctx=>`${ctx.raw}M at medium risk`}}}, scales:{x:{ticks:{font:{family:'Mulish',size:10},color:'#666'},grid:{display:false}},y:{ticks:{font:{family:'Mulish',size:10},color:'#666',callback:v=>v+'M'},grid:{color:'#eee'}}} }
+  });
+
+  // Country rank
+  const sorted = countries
+    .map(([c,p])=>({c, total:(p.rural_high_2024+p.urban_high_2024)}))
+    .sort((a,b)=>b.total-a.total).slice(0,20);
+
+  const crCtx = document.getElementById('countryRankBar').getContext('2d');
+  const bgColors = sorted.map(d => {
+    if (d.total > 100) return C.red;
+    if (d.total > 20) return C.orange;
+    return C.navy;
+  });
+  charts.countryRank = new Chart(crCtx, {
+    type:'bar',
+    data:{
+      labels: sorted.map(d=>d.c),
+      datasets:[{label:'High Risk (M)',data:sorted.map(d=>d.total.toFixed(2)),backgroundColor:bgColors,borderRadius:3,barThickness:20}]
+    },
+    options:{ indexAxis:'y', ...defaultChartOpts(), plugins:{legend:{display:false},tooltip:{...defaultChartOpts().plugins.tooltip,callbacks:{label:ctx=>`${ctx.raw}M at high risk`}}}, scales:{x:{ticks:{font:{family:'Mulish',size:9},color:'#666',callback:v=>v+'M'},grid:{color:'#eee'}},y:{ticks:{font:{family:'Mulish',size:9},color:'#666'},grid:{display:false}}} }
+  });
+  document.getElementById('heatmapTitle').textContent = region === 'all' ? 'Top 20 Countries — High Risk Population (millions)' : `Top 20 in ${region === 'Asia and the Middle East' ? 'Asia & Middle East' : region} — High Risk (millions)`;
+}
+
+// ─── VIEW 3: COUNTRY EXPLORER ─────────────────────────────────────────────────
+function initCountryView() {
+  const sel = document.getElementById('countrySelect');
+  DATA.countries.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = c;
+    sel.appendChild(opt);
+  });
+  sel.value = 'Nigeria';
+  updateCountry();
+}
+
+function updateCountry() {
+  const c = document.getElementById('countrySelect').value;
+  const p = DATA.profiles[c];
+  if (!p) return;
+
+  // Sidebar card
+  document.getElementById('cardName').textContent = c;
+  document.getElementById('cardRegion').textContent = p.region;
+  document.getElementById('statRural').textContent = fmtM(p.rural_high_2024);
+  document.getElementById('statUrban').textContent = fmtM(p.urban_high_2024);
+  document.getElementById('statMedium').textContent = fmtM(p.medium_2024);
+  document.getElementById('statLow').textContent = fmtM(p.low_2024);
+  document.getElementById('statCagrR').textContent = (p.cagr_rural > 0 ? '▲ +' : '▼ ') + p.cagr_rural.toFixed(1) + '%';
+  document.getElementById('statCagrU').textContent = (p.cagr_urban > 0 ? '▲ +' : '▼ ') + p.cagr_urban.toFixed(1) + '%';
+
+  const trajMap = {'Making Progress':'progress','Uneven Gains':'uneven','Losing Ground':'losing'};
+  const badgeDiv = document.getElementById('cardBadge');
+  badgeDiv.innerHTML = `<span class="traj-badge ${trajMap[p.trajectory]}">${p.trajectory}</span>${p.critical9 ? '<span class="c9-badge">Critical 9</span>' : ''}`;
+
+  // Donuts
+  const regional = {};
+  Object.entries(DATA.profiles).forEach(([cc,pp]) => {
+    if (pp.region !== p.region) return;
+    if (!regional.rural) regional.rural = 0;
+    if (!regional.urban) regional.urban = 0;
+    if (!regional.medium) regional.medium = 0;
+    regional.rural += pp.rural_high_2024;
+    regional.urban += pp.urban_high_2024;
+    regional.medium += pp.medium_2024;
+  });
+
+  buildDonut('donutRural', p.rural_high_2024, regional.rural - p.rural_high_2024, C.red, c);
+  buildDonut('donutUrban', p.urban_high_2024, regional.urban - p.urban_high_2024, C.orange, c);
+  buildDonut('donutMedium', p.medium_2024, regional.medium - p.medium_2024, C.yellow, c);
+
+  // Trend chart
+  const years = DATA.trend_years;
+  const trend = p.trend;
+  const rH = years.map(y=>trend[y]?.rural_high||0);
+  const uH = years.map(y=>trend[y]?.urban_high||0);
+  const med = years.map(y=>trend[y]?.medium||0);
+  const low = years.map(y=>trend[y]?.low||0);
+
+  if (countryTrendChart) countryTrendChart.destroy();
+  const ctCtx = document.getElementById('countryTrendChart').getContext('2d');
+  countryTrendChart = new Chart(ctCtx, {
+    type:'line',
+    data:{
+      labels:years,
+      datasets:[
+        {label:'Rural High Risk',data:rH,borderColor:C.red,backgroundColor:'rgba(221,46,43,0.05)',borderWidth:2,tension:0.3,fill:true,pointRadius:2},
+        {label:'Urban High Risk',data:uH,borderColor:C.orange,backgroundColor:'rgba(255,106,19,0.05)',borderWidth:2,tension:0.3,fill:true,pointRadius:2},
+        {label:'Medium Risk',data:med,borderColor:C.yellow,backgroundColor:'rgba(255,184,0,0.05)',borderWidth:2,tension:0.3,fill:true,pointRadius:2,borderDash:[4,3]},
+        {label:'Low Risk',data:low,borderColor:C.green,backgroundColor:'rgba(155,190,29,0.05)',borderWidth:2,tension:0.3,fill:true,pointRadius:2,borderDash:[4,3]},
+      ]
+    },
+    options:{ responsive:true, maintainAspectRatio:true, plugins:{legend:{display:true,position:'top',labels:{font:{family:'Mulish',size:10},color:C.dark,boxWidth:10,usePointStyle:true}},tooltip:{...defaultChartOpts().plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw.toFixed(2)}M`}}}, scales:{x:{ticks:{font:{family:'Mulish',size:9},color:'#666'},grid:{color:'#eee'}},y:{ticks:{font:{family:'Mulish',size:9},color:'#666',callback:v=>v+'M'},grid:{color:'#eee'}}} }
+  });
+  document.getElementById('countryTrendTitle').textContent = `${c} — Risk Profile 2013–2024`;
+
+  // Gender bar
+  const g = DATA.gender[c];
+  if (g) {
+    if (countryGenderChart) countryGenderChart.destroy();
+    const cgCtx = document.getElementById('countryGenderBar').getContext('2d');
+    countryGenderChart = new Chart(cgCtx, {
+      type:'bar',
+      data:{
+        labels:['Rural Poor - Female','Rural Poor - Male','Urban Poor - Female','Urban Poor - Male'],
+        datasets:[{data:[g.rural_f, g.rural_m, g.urban_f, g.urban_m],backgroundColor:[C.navy+'cc',C.navy+'66',C.orange+'cc',C.orange+'66'],borderRadius:3}]
+      },
+      options:{ indexAxis:'y', responsive:true, maintainAspectRatio:true, plugins:{legend:{display:false},tooltip:{...defaultChartOpts().plugins.tooltip,callbacks:{label:ctx=>`${ctx.raw.toFixed(2)}M`}}}, scales:{x:{ticks:{font:{family:'Mulish',size:9},color:'#666',callback:v=>v+'M'},grid:{color:'#eee'}},y:{ticks:{font:{family:'Mulish',size:9},color:'#666'},grid:{display:false}}} }
+    });
+    document.getElementById('genderCountryTitle').textContent = `${c} — Gender Split, 2024 High Risk`;
+    document.getElementById('genderCard').style.display = '';
+  } else {
+    document.getElementById('genderCard').style.display = 'none';
+  }
+}
+
+function buildDonut(canvasId, val, rest, color, label) {
+  if (countryDonutCharts[canvasId]) countryDonutCharts[canvasId].destroy();
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  countryDonutCharts[canvasId] = new Chart(ctx, {
+    type:'doughnut',
+    data:{
+      labels:[label,'Rest of Region'],
+      datasets:[{data:[val > 0 ? val : 0.001, rest > 0 ? rest : 0.001], backgroundColor:[color, '#E8EDF0'], borderWidth:0, hoverOffset:4}]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:true, cutout:'70%',
+      plugins:{
+        legend:{display:false},
+        tooltip:{...defaultChartOpts().plugins.tooltip,callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw.toFixed(2)}M`}},
+        beforeDraw: null
+      }
+    }
+  });
+}
+
+// ─── VIEW 4: CRITICAL 9 ───────────────────────────────────────────────────────
+function initC9View() {
+  const c9 = DATA.critical9;
+  const grid = document.getElementById('c9Grid');
+  grid.innerHTML = '';
+
+  const trajMap = {
+    'Making Progress': 'progress',
+    'Uneven Gains': 'uneven',
+    'Losing Ground': 'losing'
+  };
+
+  Object.entries(c9).forEach(([country, d]) => {
+    const profile = DATA.profiles[country];
+    const traj = profile ? profile.trajectory : 'Uneven Gains';
+    const cls = trajMap[traj] || 'uneven';
+    const card = document.createElement('div');
+    card.className = `c9-card ${cls}`;
+    card.onclick = () => {
+      document.getElementById('countrySelect').value = country;
+      showViewById('country');
+      updateCountry();
+    };
+    const ruralSign = d.cagr_rural > 0 ? '<span class="pos">▲</span>' : '<span class="neg">▼</span>';
+    const urbanSign = d.cagr_urban > 0 ? '<span class="pos">▲</span>' : '<span class="neg">▼</span>';
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+        <div class="c9-country">${country}</div>
+        <span class="traj-badge ${cls}" style="font-size:9px;padding:2px 7px;">${traj}</span>
+      </div>
+      <div class="c9-total">${d.total_high_M.toFixed(1)}M</div>
+      <div class="c9-total-label">at high risk (2024)</div>
+      <div class="c9-cagr-row">
+        <div class="c9-cagr">Rural ${ruralSign} <span class="${d.cagr_rural > 0 ? 'pos' : 'neg'}">${Math.abs(d.cagr_rural).toFixed(1)}%/yr</span></div>
+        <div class="c9-cagr">Urban ${urbanSign} <span class="${d.cagr_urban > 0 ? 'pos' : 'neg'}">${Math.abs(d.cagr_urban).toFixed(1)}%/yr</span></div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Scatter plot
+  const scatterData = Object.entries(c9).map(([country, d]) => {
+    const p = DATA.profiles[country];
+    const traj = p ? p.trajectory : 'Uneven Gains';
+    const color = traj === 'Making Progress' ? C.green : traj === 'Losing Ground' ? C.red : C.orange;
+    return { x: d.cagr_rural, y: d.cagr_urban, r: Math.max(6, Math.sqrt(d.total_high_M) * 3), country, color };
+  });
+
+  const scCtx = document.getElementById('scatterCanvas').getContext('2d');
+  charts.scatter = new Chart(scCtx, {
+    type:'bubble',
+    data:{
+      datasets: scatterData.map(d=>({
+        label: d.country,
+        data:[{x:d.x, y:d.y, r:d.r}],
+        backgroundColor: d.color + '99',
+        borderColor: d.color,
+        borderWidth: 2,
+      }))
+    },
+    options:{
+      responsive:true, maintainAspectRatio:true,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          ...defaultChartOpts().plugins.tooltip,
+          callbacks:{
+            title: ctx => ctx[0].dataset.label,
+            label: ctx => [`CAGR Rural: ${ctx.raw.x.toFixed(1)}%/yr`, `CAGR Urban: ${ctx.raw.y.toFixed(1)}%/yr`]
+          }
+        }
+      },
+      scales:{
+        x:{ title:{display:true,text:'CAGR Rural High Risk (% per year)',font:{family:'Mulish',size:10},color:'#666'}, ticks:{font:{family:'Mulish',size:10},color:'#666',callback:v=>v+'%'}, grid:{color:'#eee'}, border:{dash:[4,4]} },
+        y:{ title:{display:true,text:'CAGR Urban High Risk (% per year)',font:{family:'Mulish',size:10},color:'#666'}, ticks:{font:{family:'Mulish',size:10},color:'#666',callback:v=>v+'%'}, grid:{color:'#eee'}, border:{dash:[4,4]} }
+      }
+    },
+    plugins:[{
+      id:'countryLabels',
+      afterDatasetsDraw(chart) {
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.font = '600 10px Mulish,Arial,sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        chart.data.datasets.forEach((ds,i) => {
+          const meta = chart.getDatasetMeta(i);
+          if (!meta.hidden && meta.data[0]) {
+            const pt = meta.data[0];
+            ctx.fillStyle = C.dark;
+            ctx.fillText(ds.label, pt.x, pt.y - pt.options.radius - 8);
+          }
+        });
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+function showViewById(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  const map = {global:0,regional:1,country:2,critical9:3,gender:4};
+  if (map[id] !== undefined) tabs[map[id]].classList.add('active');
+  if (id === 'country' && !document.getElementById('countrySelect').options.length) initCountryView();
+}
+
+// ─── VIEW 5: GENDER ──────────────────────────────────────────────────────────
+function initGenderView() {
+  const gd = DATA.gender;
+  // Sort by total high risk
+  const sorted = Object.entries(gd)
+    .map(([c,g]) => ({ c, total_f: (g.rural_f||0)+(g.urban_f||0), total_m: (g.rural_m||0)+(g.urban_m||0) }))
+    .sort((a,b) => (b.total_f+b.total_m) - (a.total_f+a.total_m))
+    .slice(0,20);
+
+  const femaleShares = sorted.map(d => {
+    const total = d.total_f + d.total_m;
+    return total > 0 ? ((d.total_f/total)*100).toFixed(1) : 50;
+  });
+
+  // Female share bar
+  const gsCtx = document.getElementById('genderShareBar').getContext('2d');
+  const shareColors = femaleShares.map(s => s > 50.5 ? C.navy : s < 49.5 ? C.orange : C.teal);
+  charts.genderShare = new Chart(gsCtx, {
+    type:'bar',
+    data:{
+      labels: sorted.map(d=>d.c),
+      datasets:[{label:'Female Share of High Risk (%)',data:femaleShares,backgroundColor:shareColors,borderRadius:2,barThickness:16}]
+    },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:true,
+      plugins:{legend:{display:false},tooltip:{...defaultChartOpts().plugins.tooltip,callbacks:{label:ctx=>`Female share: ${ctx.raw}%`}}},
+      scales:{
+        x:{min:45,max:55,ticks:{font:{family:'Mulish',size:9},color:'#666',callback:v=>v+'%'},grid:{color:'#eee'}},
+        y:{ticks:{font:{family:'Mulish',size:9},color:'#666'},grid:{display:false}}
+      }
+    },
+    plugins:[{
+      id:'refLine50',
+      afterDraw(chart) {
+        const xAxis = chart.scales.x;
+        const x50 = xAxis.getPixelForValue(50);
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.strokeStyle = C.dark;
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4,4]);
+        ctx.beginPath();
+        ctx.moveTo(x50, chart.chartArea.top);
+        ctx.lineTo(x50, chart.chartArea.bottom);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }]
+  });
+
+  // Diverging bar: Female(neg) | Male(pos)
+  const top15 = sorted.slice(0,15);
+  const gdCtx = document.getElementById('genderDivergBar').getContext('2d');
+  charts.genderDiv = new Chart(gdCtx, {
+    type:'bar',
+    data:{
+      labels: top15.map(d=>d.c),
+      datasets:[
+        {label:'Female',data:top15.map(d=>-d.total_f.toFixed(2)),backgroundColor: C.navy+'bb',borderRadius:2,barThickness:14},
+        {label:'Male',data:top15.map(d=>d.total_m.toFixed(2)),backgroundColor: C.orange+'bb',borderRadius:2,barThickness:14},
+      ]
+    },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:true,
+      plugins:{
+        legend:{display:true,position:'top',labels:{font:{family:'Mulish',size:10},color:C.dark,boxWidth:10,usePointStyle:true}},
+        tooltip:{...defaultChartOpts().plugins.tooltip,callbacks:{label:ctx=>`${ctx.dataset.label}: ${Math.abs(ctx.raw).toFixed(2)}M`}}
+      },
+      scales:{
+        x:{ticks:{font:{family:'Mulish',size:9},color:'#666',callback:v=>Math.abs(v)+'M'},grid:{color:'#eee'}},
+        y:{ticks:{font:{family:'Mulish',size:9},color:'#666'},grid:{display:false}},
+      }
+    }
+  });
+
+  // KPIs
+  let totalF = 0, totalM = 0;
+  Object.values(gd).forEach(g => { totalF += (g.rural_f||0)+(g.urban_f||0); totalM += (g.rural_m||0)+(g.urban_m||0); });
+  document.getElementById('globalFemaleKPI').textContent = fmtM(totalF);
+  document.getElementById('globalMaleKPI').textContent = fmtM(totalM);
+  document.getElementById('globalShareKPI').textContent = ((totalF/(totalF+totalM))*100).toFixed(1)+'%';
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  initGlobalView();
+});
+</script>
+
+</body>
+</html>
